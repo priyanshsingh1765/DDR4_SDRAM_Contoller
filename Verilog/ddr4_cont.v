@@ -11,8 +11,8 @@ module ddr4_cont(
  output reg dcs_n, dact_n,
  output reg [1:0] dbg, dba,
  //pins for testing 
- output [2:0] curr_state,
- output integer delay
+ output [3:0] curr_state,
+ output integer delay, rfsh_ctr
 );
 
 //timing values for E-die - to be used by FSM wait state
@@ -22,23 +22,25 @@ parameter txpr = 136, tmrd = 8, tmod = 24;
 parameter tzqinit = 1024, tzqoper = 512, tzqcs = 128;
 parameter trp = 11;
 parameter trcd = 11, CL = 11, CWL = 11, tbl8 = 4;
-parameter trfc = 128, trefi = 6240;
+parameter trfc = 128, trefi = 6240; //+trfc because of upcount in waiting state
 parameter trrds = 4, trrdl = 5;
 
 //FSM states
 parameter init0 = 0, init1 = 1, init_mrs = 2, init_zq = 3; //initialization sequence
 parameter waiting = 4;
-parameter idle = 5, read = 6, write = 7;
+parameter idle = 5, read = 6, write = 7, refresh = 8;
 
 //signals used
-reg [2:0] state, next_state, ret;
-//integer delay, mrs_ctr; //to be used by the wait state
+reg [3:0] state, next_state, ret;
+//integer delay, rfsh_ctr, mrs_ctr; //to be used by the wait state
 integer mrs_ctr; 
 
 //status of the banks
-reg all_precharged; //all banks precharged
 reg [3:0] bank_precharged [3:0]; //individual bank precharged
+wire all_precharged; //all banks precharged
 reg [16:0] active_address [3:0] [3:0];//bg->ba->row
+
+assign all_precharged = ((bank_precharged[3] & bank_precharged[2] & bank_precharged[1] & bank_precharged[0]) == 4'b1111) ? 1:0;
 
 //next state logic
 always @ (*)
@@ -47,10 +49,17 @@ always @ (*)
 			waiting: next_state <= (delay == 0) ? ret:waiting;
 			
 			idle:    begin
-						if(active_address[ca[30:29]][ca[28:27]] == ca[26:10] & bank_precharged[ca[30:29]][ca[28:27]] == 0 & (crd | cwr))
-						   next_state <= crd ? read:write; // direct read/write for Row hit
+						if((rfsh_ctr < 9*trefi) & (crd | cwr))//higher priority to CPU read/write cmds
+						   if(active_address[ca[30:29]][ca[28:27]] == ca[26:10] & bank_precharged[ca[30:29]][ca[28:27]] == 0)
+								next_state <= crd ? read:write; // direct read/write for Row hit
+							else
+								next_state <= waiting;//Row miss - need to activate or precharge
+								
+						else if(rfsh_ctr >= trefi) //Need to refresh and no cpu read write command
+							next_state <= all_precharged ? refresh:waiting;
+							
 						else
-							next_state <= waiting; //Row miss
+						   next_state <= idle; //this is a queueless solution as of now, as it assumes cpu maintains crd, cwr until read/write is complete
 						end
 						
 			default: next_state <= waiting;
@@ -66,48 +75,82 @@ always @ (posedge clkin)
 always @ (posedge clkin)
 begin
 	case(state)
-		waiting:  delay <= delay - 1;
-		
+		waiting:  begin 
+					 delay <= delay - 1;
+					 if(ret > 3)
+						rfsh_ctr <= rfsh_ctr + 1;
+					 end
+					 
 		init0:    delay <= tPW_RESET;
 		
 		init1: 	 begin 
 					 delay <= internal_init;
 					 mrs_ctr <= 0;
+					 rfsh_ctr <= 0;
 					 end
 					 
 		init_mrs: begin 
 					 delay <= (mrs_ctr == 7) ? tmod:((mrs_ctr == 0) ? txpr:tmrd);
 					 mrs_ctr <= mrs_ctr + 1;
-					 all_precharged <= 0;
+					 bank_precharged[0] <= 4'b0000;
+					 bank_precharged[1] <= 4'b0000;
+					 bank_precharged[2] <= 4'b0000;
+					 bank_precharged[3] <= 4'b0000;
 					 end
 		
 		init_zq:  begin
 					 delay <= all_precharged ? tzqinit:trp;
-					 all_precharged <= 1;
 					 bank_precharged[0] <= 4'b1111;
-					 bank_precharged[1] <= 4'b1111;
+					 bank_precharged[1] <= 4'b1111; 
 					 bank_precharged[2] <= 4'b1111;
 					 bank_precharged[3] <= 4'b1111;
 					 end
 		
 		idle:     begin
-					 if((crd | cwr) & (active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1))//Row miss => got to wait for precharge/activation
+					 if((rfsh_ctr < 9*trefi) & (crd | cwr))//read/write given higher priority over refresh for upto 9trefi
 						 begin
-						 delay <= bank_precharged[ca[30:29]][ca[28:27]] ? trcd:trp;
-						 bank_precharged[ca[30:29]][ca[28:27]] <= 1;
+						 rfsh_ctr <= rfsh_ctr + 1;
+						 if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
+						 begin
+							 delay <= bank_precharged[ca[30:29]][ca[28:27]] ? trcd:trp;
+							 bank_precharged[ca[30:29]][ca[28:27]] <= 1;
 						 end
+						 end
+						 
+					 else if(rfsh_ctr >= trefi)
+						 begin
+						 rfsh_ctr <= 0;
+					    if(~all_precharged)//all banks not precharged, precharge first
+							 begin
+							 delay <= trp;
+							 bank_precharged[0] <= 4'b1111;
+							 bank_precharged[1] <= 4'b1111;
+							 bank_precharged[2] <= 4'b1111;
+							 bank_precharged[3] <= 4'b1111;
+							 end
+					    end
+						 
+					 else 
+					    rfsh_ctr <= rfsh_ctr + 1;
+						 
 					 end
 		
 		read:     begin
 					 delay <= CL + tbl8;
 					 bank_precharged[ca[30:29]][ca[28:27]] <= 0;
 					 active_address[ca[30:29]][ca[28:27]] <= ca[26:10];
+					 rfsh_ctr <= rfsh_ctr + 1;
 					 end
 		
 		write:    begin
 					 delay <= CL + tbl8;
 					 bank_precharged[ca[30:29]][ca[28:27]] <= 0;
 					 active_address[ca[30:29]][ca[28:27]] <= ca[26:10];
+					 rfsh_ctr <= rfsh_ctr + 1;
+					 end
+	   
+		refresh:  begin
+					 delay <= trfc;
 					 end
 					 
 		default: delay <= delay;
@@ -125,7 +168,7 @@ begin
 					 drst_n <= 0;
 					 dcs_n <= 0;
 					 dact_n <= 1;
-					 cke <= 0; 
+					 cke <= 0;
 					 end
 					 
 		init1:    begin 
@@ -177,19 +220,40 @@ begin
 					 end
 		
 		idle:     begin
-					 ret <= bank_precharged[ca[30:29]][ca[28:27]] ? (crd ? read:(cwr ? write: idle)):idle;
-					 
-					 if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)
+
+					 if((rfsh_ctr < 9*trefi) & (crd | cwr)) //give precedence to CPU
 					 begin
+						ret <= bank_precharged[ca[30:29]][ca[28:27]] ? (crd ? read:write):idle;
+						
+						if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)
+						begin
 						 dcs_n <= 0;
 						 dact_n <= bank_precharged[ca[30:29]][ca[28:27]] ? 0:1;
 						 {da[16:14], da[10]} <= bank_precharged[ca[30:29]][ca[28:27]] ? {ca[26:24], ca[20]}:4'b0100; //activate:precharge_single
 						 {da[13:11], da[9:0]} <= {ca[23:21], ca[19:10]};
 						 dbg <= ca[30:29];
 						 dba <= ca[28:27];
+						end
+
+						else
+						dcs_n <= 1; //direct jump to read/write without issuing any precharge/activate command
 					 end
 					 
-					 else
+					 else if(rfsh_ctr >= trefi) //refresh needed
+					 begin
+						ret <= refresh; //useful only when not all banks precharged
+						
+						if(all_precharged)//go directly to refresh state
+							dcs_n <= 1;
+						else //issue a precharge all
+						begin
+							dcs_n <= 0;
+							dact_n <= 1;
+							{da[16:14], da[10]} <= 4'b0101;//precharge_all
+						end
+					 end
+					 
+					 else //no refresh needed - stay idle
 					  dcs_n <= 1;
 					  
 					 end
@@ -212,6 +276,13 @@ begin
 					 da[9:0] <= ca[9:0];
 					 dbg <= ca[30:29];
 					 dba <= ca[28:27];
+					 end
+		
+		refresh:  begin
+					 ret <= idle;
+					 dcs_n <= 0;
+					 dact_n <= 1;
+					 da[16:14] <= 4'b001;
 					 end
 					 
 		default:  dcs_n <= 1;	
