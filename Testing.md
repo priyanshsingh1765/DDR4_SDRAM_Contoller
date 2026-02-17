@@ -12,4 +12,5 @@
 - Controller in write state for a longer time than expected - because of wr being kept high by the CPU
 - Activate tested ✅
 - Burst Length set to 8 - MR0 - 1052 (PREVIOUSLY OTF)
-- Precharge testing ❌ - \textbf{twr} violation
+- Precharge testing ❌ - twr violation
+- 
