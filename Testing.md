@@ -12,5 +12,4 @@
 - Controller in write state for a longer time than expected - because of wr being kept high by the CPU
 - Activate tested ✅
 - Burst Length set to 8 - MR0 - 1052 (PREVIOUSLY OTF)
-- Precharge testing ❌ - twr violation
-- 
+- Precharge testing ❌ - twr violation - happens in CASE 3 + same bank - precharge should happen twr after the last write transaction - no violation across different banks
