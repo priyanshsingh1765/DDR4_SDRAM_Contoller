@@ -14,3 +14,5 @@
 - Burst Length set to 8 - MR0 - 1052 (PREVIOUSLY OTF)
 ## 17/02/26
 - Precharge testing ❌ - twr violation - happens in CASE 3 + same bank - precharge should happen twr after the last write transaction - no violation across different banks
+- Solving tWR(and hence tRTP) - Options: 1. Through ready bit - but contr. has to first know the address 2. New "not ready" state/self loop in idle state with a counter
+- Setting twr to 15ns = 12 cycles => mr0 = 540 rather than 1052
