@@ -19,6 +19,6 @@
 ## 18/02
 - Implemented recovery solution in ddr4 cont
 - Write - Write testing ✅
-- Read - Write testing
-- Write - Refresh testing
-- Read - Refresh testing 
+- Read - Write testing 
+- Write - Refresh testing ✅
+- Read - Refresh testing ✅
