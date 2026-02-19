@@ -19,6 +19,8 @@
 ## 18/02
 - Implemented recovery solution in ddr4 cont
 - Write - Write testing ✅
-- Read - Write testing 
+- Read - Write testing ✅
 - Write - Refresh testing ✅
 - Read - Refresh testing ✅
+## 19/02
+- Testing bug - active_adress reg is assigned based on current ca in read/write stage and if ca changes in read/write stage a faulty update happens - correct using a reg for ca
