@@ -18,7 +18,8 @@
 - Setting twr to 15ns = 12 cycles => mr0 = 540 rather than 1052
 ## 18/02
 - Implemented recovery solution in ddr4 cont
-- Write - Write, Read, Refresh testing ✅
-- Read - Write, Read, Refresh testing ✅
+- RECOVERY: Write - Write, Read, Refresh testing ✅
+- RECOVERY: Read - Write, Read, Refresh testing ✅
 ## 19/02
 - Testing bug - active_adress reg is assigned based on current ca in read/write stage and if ca changes in read/write stage a faulty update happens - correct using a reg for ca
+- 
