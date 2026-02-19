@@ -22,4 +22,4 @@
 - RECOVERY: Read - Write, Read, Refresh testing ✅
 ## 19/02
 - Testing bug - active_adress reg is assigned based on current ca in read/write stage and if ca changes in read/write stage a faulty update happens - correct using a reg for ca
-- 
+- Micron model - tWR violation solved with recovery edit ✅ 
