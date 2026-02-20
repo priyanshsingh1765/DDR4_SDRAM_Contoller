@@ -22,4 +22,6 @@
 - RECOVERY: Read - Write, Read, Refresh testing ✅
 ## 19/02
 - Testing bug - active_adress reg is assigned based on current ca in read/write stage and if ca changes in read/write stage a faulty update happens - correct using a reg for ca
-- Micron model - tWR violation solved with recovery edit ✅ 
+- Micron model - tWR violation solved with recovery edit ✅
+## 20/02
+- Recovery verif cont - issue: doesnt activate bg2 ba2 after a write to bg2 ba3 - however updates the bank status registers correctly - fixed by adding a cpu_nop before the concerned write
