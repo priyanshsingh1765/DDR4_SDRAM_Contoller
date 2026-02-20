@@ -12,7 +12,7 @@ module ddr4_cont(
  output reg [1:0] dbg, dba,
  //pins for testing 
  output [3:0] curr_state,
- output integer delay, rfsh_ctr
+ output integer delay, rfsh_ctr, rec_ctr //RECOVERY_EDIT
 );
 
 //timing values for E-die - to be used by FSM wait state
@@ -24,6 +24,7 @@ parameter trp = 11;
 parameter trcd = 11, CL = 11, CWL = 11, tbl8 = 4;
 parameter trfc = 128, trefi = 6240; //+trfc because of upcount in waiting state
 parameter trrds = 4, trrdl = 5;
+parameter twr = 12, trtp = 6; //RECOVERY_EDIT
 
 //FSM states
 parameter init0 = 0, init1 = 1, init_mrs = 2, init_zq = 3; //initialization sequence
@@ -41,6 +42,10 @@ wire all_precharged; //all banks precharged
 reg [16:0] active_address [3:0] [3:0];//bg->ba->row
 
 assign all_precharged = ((bank_precharged[3] & bank_precharged[2] & bank_precharged[1] & bank_precharged[0]) == 4'b1111) ? 1:0;
+
+//RECOVERY_EDIT
+integer recovery_ctr;
+reg [3:0] prev_bank; //bg,ba - prev bank where a read/write was done
 
 //next state logic
 always @ (*)
@@ -112,27 +117,34 @@ begin
 						 rfsh_ctr <= rfsh_ctr + 1;
 						 if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
 						 begin
-							 delay <= bank_precharged[ca[30:29]][ca[28:27]] ? trcd:trp;
-							 bank_precharged[ca[30:29]][ca[28:27]] <= 1;
+							 delay <= bank_precharged[ca[30:29]][ca[28:27]] ? trcd:(((prev_bank == ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
+							 bank_precharged[ca[30:29]][ca[28:27]] <= ((prev_bank == ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[ca[30:29]][ca[28:27]]:1;//RECOVERY_EDIT
 						 end
 						 end
 						 
 					 else if(rfsh_ctr >= trefi)
 						 begin
-						 rfsh_ctr <= 0;
-					    if(~all_precharged)//all banks not precharged, precharge first
-							 begin
-							 delay <= trp;
-							 bank_precharged[0] <= 4'b1111;
-							 bank_precharged[1] <= 4'b1111;
-							 bank_precharged[2] <= 4'b1111;
-							 bank_precharged[3] <= 4'b1111;
-							 end
+							 if(~all_precharged)//all banks not precharged, precharge first
+								 begin
+									if((prev_bank == ca[30:27]) & (recovery_ctr != 0)) //RECOVERY_EDIT
+										begin
+										 delay <= recovery_ctr - 1;
+										end
+									else
+										begin
+										 rfsh_ctr <= 0;
+										 delay <= trp;
+										 bank_precharged[0] <= 4'b1111;
+										 bank_precharged[1] <= 4'b1111;
+										 bank_precharged[2] <= 4'b1111;
+										 bank_precharged[3] <= 4'b1111;
+										end
+								 end
+							  else
+								 rfsh_ctr <= 0;
 					    end
-						 
 					 else 
-					    rfsh_ctr <= rfsh_ctr + 1;
-						 
+					    rfsh_ctr <= rfsh_ctr + 1;	 
 					 end
 		
 		read:     begin
@@ -156,9 +168,23 @@ begin
 		default: delay <= delay;
 	endcase
 end				 
-		
-//output and ret logic
+
+//RECOVERY COUNTER LOGIC //RECOVERY_EDIT
 always @ (posedge clkin)
+begin
+	case(state)
+	   init0: recovery_ctr <= 0;
+		read: recovery_ctr <= CL + tbl8 + trtp;
+		write: recovery_ctr <= CL + tbl8 + twr;
+		default: begin
+						if(recovery_ctr > 0)
+							recovery_ctr <= recovery_ctr - 1;
+				   end
+   endcase
+end
+
+//output and ret logic
+always @ (posedge clkin) // Will need event control using state as using clk edge control delays output by one cycle
 begin
 	case(state)
 		waiting:  dcs_n <= 1; //DES command in waiting state
@@ -188,25 +214,25 @@ begin
 					 dact_n <= 1;
 					 case (mrs_ctr) //finish these !!!!!!
 						1: begin //mr3
-							da[16:14] <= 3'b000;
+							da[13:0] <= 0;
 							end
 						2: begin //mr6
-							da[16:14] <= 3'b000;
+							da[13:0] <= 2063;
 							end
 						3: begin //mr5
-							da[16:14] <= 3'b000;
+							da[13:0] <= 0;
 							end
 						4: begin //mr4
-							da[16:14] <= 3'b000;
+							da[13:0] <= 4096;
 							end
 						5: begin //mr2
-							da[16:14] <= 3'b000;
+							da[13:0] <= 136;
 							end
 						6: begin //mr1
-							da[16:14] <= 3'b000;
+							da[13:0] <= 1;
 							end
 						7: begin //mr0
-							da[16:14] <= 3'b000;
+							da[13:0] <= 1053;
 							end
 						default: dcs_n <= 1;
 					 endcase
@@ -227,7 +253,7 @@ begin
 						
 						if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)
 						begin
-						 dcs_n <= 0;
+						 dcs_n <= ((prev_bank == ca[30:27]) & (recovery_ctr != 0)); //RECOVERY_EDIT
 						 dact_n <= bank_precharged[ca[30:29]][ca[28:27]] ? 0:1;
 						 {da[16:14], da[10]} <= bank_precharged[ca[30:29]][ca[28:27]] ? {ca[26:24], ca[20]}:4'b0100; //activate:precharge_single
 						 {da[13:11], da[9:0]} <= {ca[23:21], ca[19:10]};
@@ -241,16 +267,24 @@ begin
 					 
 					 else if(rfsh_ctr >= trefi) //refresh needed
 					 begin
-						ret <= refresh; //useful only when not all banks precharged
-						
-						if(all_precharged)//go directly to refresh state
-							dcs_n <= 1;
-						else //issue a precharge all
-						begin
-							dcs_n <= 0;
-							dact_n <= 1;
-							{da[16:14], da[10]} <= 4'b0101;//precharge_all
-						end
+					   if (~((prev_bank == ca[30:27]) & (recovery_ctr != 0))) //RECOVERY_EDIT
+							begin
+								ret <= refresh; //useful only when not all banks precharged
+								
+								if(all_precharged)//go directly to refresh state
+									dcs_n <= 1;
+								else //issue a precharge all
+								begin
+									dcs_n <= 0;
+									dact_n <= 1;
+									{da[16:14], da[10]} <= 4'b0101;//precharge_all
+								end
+							end
+						else
+							begin
+								ret <= idle;
+								dcs_n <= 1;
+							end
 					 end
 					 
 					 else //no refresh needed - stay idle
@@ -266,6 +300,7 @@ begin
 					 da[9:0] <= ca[9:0];
 					 dbg <= ca[30:29];
 					 dba <= ca[28:27];
+					 prev_bank <= ca[30:27]; //RECOVERY_EDIT
 					 end 
 					 
 		write:    begin
@@ -276,6 +311,7 @@ begin
 					 da[9:0] <= ca[9:0];
 					 dbg <= ca[30:29];
 					 dba <= ca[28:27];
+					 prev_bank <= ca[30:27]; //RECOVERY_EDIT
 					 end
 		
 		refresh:  begin
@@ -289,17 +325,8 @@ begin
 	endcase
 end
 
-//pins for testing
+//pins for testing 
 assign curr_state = state;
-endmodule
-					 
-					 
-					 
-					  	
-		
-		
-		
-
-
-
-
+always @ * //RECOVERY_EDIT
+ rec_ctr = recovery_ctr;
+endmodule 
