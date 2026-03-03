@@ -10,10 +10,12 @@ module ddr4_cont(
  output reg [16:0] da,
  output reg dcs_n, dact_n,
  output reg [1:0] dbg, dba,
+ 
+ output ready_bit, //READY_VALID_EDIT
+ 
  //pins for testing 
  output [3:0] curr_state,
- output integer delay, rfsh_ctr, rec_ctr, //RECOVERY_EDIT
- output ready_bit //READY_VALID
+ output integer delay, rfsh_ctr, rec_ctr //RECOVERY_EDIT
 );
 
 //timing values for E-die - to be used by FSM wait state
@@ -48,7 +50,7 @@ assign all_precharged = ((bank_precharged[3] & bank_precharged[2] & bank_prechar
 integer recovery_ctr;
 reg [3:0] prev_bank; //bg,ba - prev bank where a read/write was done
 
-//READY_VALID
+//READY_VALID_EDIT
 reg ready, valid;
 reg cmd_reg_crd, cmd_reg_cwr; 
 reg [30:0] cmd_reg_ca;
@@ -61,7 +63,7 @@ always @ (*)
 			waiting: next_state <= (delay == 0) ? ret:waiting;
 			
 			idle:    begin
-						if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//higher priority to CPU read/write cmds
+						if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//higher priority to CPU read/write cmds //READY_VALID_EDIT
 						   if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == cmd_reg_ca[26:10] & bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 0)
 								next_state <= cmd_reg_crd ? read:write; // direct read/write for Row hit
 							else
@@ -332,7 +334,7 @@ begin
 	endcase
 end
 
-//READY_VALID
+//READY_VALID_EDIT
 always @ (posedge clkin)
 	begin
 		if(crst_n == 0)
@@ -370,9 +372,10 @@ always @ (posedge clkin)
 			end
 	end						
 
+assign ready_bit = ready;
+	
 //pins for testing 
 assign curr_state = state;
-assign ready_bit = ready;
 always @ * //RECOVERY_EDIT
  rec_ctr = recovery_ctr;
 endmodule 
