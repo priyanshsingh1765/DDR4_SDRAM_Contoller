@@ -12,7 +12,8 @@ module ddr4_cont(
  output reg [1:0] dbg, dba,
  //pins for testing 
  output [3:0] curr_state,
- output integer delay, rfsh_ctr, rec_ctr //RECOVERY_EDIT
+ output integer delay, rfsh_ctr, rec_ctr, //RECOVERY_EDIT
+ output ready_bit //READY_VALID
 );
 
 //timing values for E-die - to be used by FSM wait state
@@ -47,6 +48,12 @@ assign all_precharged = ((bank_precharged[3] & bank_precharged[2] & bank_prechar
 integer recovery_ctr;
 reg [3:0] prev_bank; //bg,ba - prev bank where a read/write was done
 
+//READY_VALID
+reg ready, valid;
+reg cmd_reg_crd, cmd_reg_cwr; 
+reg [30:0] cmd_reg_ca;
+reg [3:0] cmd_reg_cwdat;
+
 //next state logic
 always @ (*)
 	begin
@@ -54,9 +61,9 @@ always @ (*)
 			waiting: next_state <= (delay == 0) ? ret:waiting;
 			
 			idle:    begin
-						if((rfsh_ctr < 9*trefi) & (crd | cwr))//higher priority to CPU read/write cmds
-						   if(active_address[ca[30:29]][ca[28:27]] == ca[26:10] & bank_precharged[ca[30:29]][ca[28:27]] == 0)
-								next_state <= crd ? read:write; // direct read/write for Row hit
+						if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//higher priority to CPU read/write cmds
+						   if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == cmd_reg_ca[26:10] & bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 0)
+								next_state <= cmd_reg_crd ? read:write; // direct read/write for Row hit
 							else
 								next_state <= waiting;//Row miss - need to activate or precharge
 								
@@ -112,13 +119,13 @@ begin
 					 end
 		
 		idle:     begin
-					 if((rfsh_ctr < 9*trefi) & (crd | cwr))//read/write given higher priority over refresh for upto 9trefi
+					 if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//read/write given higher priority over refresh for upto 9trefi
 						 begin
 						 rfsh_ctr <= rfsh_ctr + 1;
-						 if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
+						 if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
 						 begin
-							 delay <= bank_precharged[ca[30:29]][ca[28:27]] ? trcd:(((prev_bank == ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
-							 bank_precharged[ca[30:29]][ca[28:27]] <= ((prev_bank == ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[ca[30:29]][ca[28:27]]:1;//RECOVERY_EDIT
+							 delay <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? trcd:(((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
+							 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]]:1;//RECOVERY_EDIT
 						 end
 						 end
 						 
@@ -126,7 +133,7 @@ begin
 						 begin
 							 if(~all_precharged)//all banks not precharged, precharge first
 								 begin
-									if((prev_bank == ca[30:27]) & (recovery_ctr != 0)) //RECOVERY_EDIT
+									if((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) //RECOVERY_EDIT
 										begin
 										 delay <= recovery_ctr - 1;
 										end
@@ -149,15 +156,15 @@ begin
 		
 		read:     begin
 					 delay <= CL + tbl8;
-					 bank_precharged[ca[30:29]][ca[28:27]] <= 0;
-					 active_address[ca[30:29]][ca[28:27]] <= ca[26:10];
+					 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= 0;
+					 active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= cmd_reg_ca[26:10];
 					 rfsh_ctr <= rfsh_ctr + 1;
 					 end
 		
 		write:    begin
 					 delay <= CL + tbl8;
-					 bank_precharged[ca[30:29]][ca[28:27]] <= 0;
-					 active_address[ca[30:29]][ca[28:27]] <= ca[26:10];
+					 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= 0;
+					 active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= cmd_reg_ca[26:10];
 					 rfsh_ctr <= rfsh_ctr + 1;
 					 end
 	   
@@ -247,19 +254,19 @@ begin
 		
 		idle:     begin
 
-					 if((rfsh_ctr < 9*trefi) & (crd | cwr)) //give precedence to CPU
+					 if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid) //give precedence to CPU
 					 begin
-						ret <= bank_precharged[ca[30:29]][ca[28:27]] ? (crd ? read:write):idle;
+						ret <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? (cmd_reg_crd ? read:write):idle;
 						
-						if(active_address[ca[30:29]][ca[28:27]] != ca[26:10] | bank_precharged[ca[30:29]][ca[28:27]] == 1)
-						begin
-						 dcs_n <= ((prev_bank == ca[30:27]) & (recovery_ctr != 0)); //RECOVERY_EDIT
-						 dact_n <= bank_precharged[ca[30:29]][ca[28:27]] ? 0:1;
-						 {da[16:14], da[10]} <= bank_precharged[ca[30:29]][ca[28:27]] ? {ca[26:24], ca[20]}:4'b0100; //activate:precharge_single
-						 {da[13:11], da[9:0]} <= {ca[23:21], ca[19:10]};
-						 dbg <= ca[30:29];
-						 dba <= ca[28:27];
-						end
+						if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)
+							begin
+							 dcs_n <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)); //RECOVERY_EDIT
+							 dact_n <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? 0:1;
+							 {da[16:14], da[10]} <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? {cmd_reg_ca[26:24], cmd_reg_ca[20]}:4'b0100; //activate:precharge_single
+							 {da[13:11], da[9:0]} <= {cmd_reg_ca[23:21], cmd_reg_ca[19:10]};
+							 dbg <= cmd_reg_ca[30:29];
+							 dba <= cmd_reg_ca[28:27];
+							end
 
 						else
 						dcs_n <= 1; //direct jump to read/write without issuing any precharge/activate command
@@ -267,7 +274,7 @@ begin
 					 
 					 else if(rfsh_ctr >= trefi) //refresh needed
 					 begin
-					   if (~((prev_bank == ca[30:27]) & (recovery_ctr != 0))) //RECOVERY_EDIT
+					   if (~((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0))) //RECOVERY_EDIT
 							begin
 								ret <= refresh; //useful only when not all banks precharged
 								
@@ -297,10 +304,10 @@ begin
 					 dcs_n <= 0;
 					 dact_n <= 1;
 					 {da[16:14], da[10]} <= 4'b1010;
-					 da[9:0] <= ca[9:0];
-					 dbg <= ca[30:29];
-					 dba <= ca[28:27];
-					 prev_bank <= ca[30:27]; //RECOVERY_EDIT
+					 da[9:0] <= cmd_reg_ca[9:0];
+					 dbg <= cmd_reg_ca[30:29];
+					 dba <= cmd_reg_ca[28:27];
+					 prev_bank <= cmd_reg_ca[30:27]; //RECOVERY_EDIT
 					 end 
 					 
 		write:    begin
@@ -308,10 +315,10 @@ begin
 					 dcs_n <= 0;
 					 dact_n <= 1;
 					 {da[16:14], da[10]} <= 4'b1000;
-					 da[9:0] <= ca[9:0];
-					 dbg <= ca[30:29];
-					 dba <= ca[28:27];
-					 prev_bank <= ca[30:27]; //RECOVERY_EDIT
+					 da[9:0] <= cmd_reg_ca[9:0];
+					 dbg <= cmd_reg_ca[30:29];
+					 dba <= cmd_reg_ca[28:27];
+					 prev_bank <= cmd_reg_ca[30:27]; //RECOVERY_EDIT
 					 end
 		
 		refresh:  begin
@@ -325,8 +332,47 @@ begin
 	endcase
 end
 
+//READY_VALID
+always @ (posedge clkin)
+	begin
+		if(crst_n == 0)
+			begin
+				ready <= 0;
+				valid <= 0;
+			end
+		else
+			begin
+				casex(state)
+					init_zq: begin
+									ready <= 1;
+									valid <= 0;
+								end
+					
+					4'b00xx: begin
+									ready <= 0;
+									valid <= 0;
+								end
+								
+					4'b011x: begin
+									ready <= 1;
+									valid <= 0;
+								end
+					
+					default: begin
+									if(ready & (crd | cwr))
+										begin
+											ready <= 0; 
+											valid <= 1;
+											{cmd_reg_crd, cmd_reg_cwr, cmd_reg_ca, cmd_reg_cwdat} <= {crd, cwr, ca, cwdat}; 
+										end
+								end
+				endcase
+			end
+	end						
+
 //pins for testing 
 assign curr_state = state;
+assign ready_bit = ready;
 always @ * //RECOVERY_EDIT
  rec_ctr = recovery_ctr;
 endmodule 
