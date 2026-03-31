@@ -1,7 +1,7 @@
 module ddr4_cont(
- input clkin, crst_n, crd, cwr,
+ input clkin, clk_90, crst_n, crd, cwr,
  input [30: 0] ca,
- input [3:0] cwdat,
+ input [31:0] cwdat,
  output reg [3:0] crdat,
  
  inout reg [3:0] ddq,
@@ -58,7 +58,12 @@ reg [3:0] prev_bank; //bg,ba - prev bank where a read/write was done
 reg ready, valid;
 reg cmd_reg_crd, cmd_reg_cwr; 
 reg [30:0] cmd_reg_ca;
-reg [3:0] cmd_reg_cwdat;
+reg [31:0] cmd_reg_cwdat;
+reg write_flag; //raised when entering wait state after a write command to allow for ready to be raised when write is complete
+
+//datapath instance
+wire [31:0] ddq_o;
+wire ddqs_t_o, ddqs_c_o;
 
 //next state logic
 always @ (*)
@@ -196,7 +201,7 @@ begin
 		
 		write:    begin
 					 $display("Controller State = write, time = %0t",  $time);
-					 delay <= CL + tbl8;
+					 delay <= CWL + tbl8;
 					 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= 0;
 					 active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= cmd_reg_ca[26:10];
 					 rfsh_ctr <= rfsh_ctr + 1;
@@ -413,16 +418,35 @@ always @ (posedge clkin)
 					init_zq: begin
 									ready <= 1;
 									valid <= 0;
+									write_flag <= 0;
 								end
 					
 					4'b00xx: begin
 									ready <= 0;
 									valid <= 0;
+									write_flag <= 0;
+								end	
+					
+					waiting: begin
+									if((write_flag == 1) & (delay == 0))
+										begin	
+											ready <= 1;
+											valid <= 0;
+											write_flag <= 0;
+										end
+									else if(ready & (crd | cwr))
+										begin
+											ready <= 0; 
+											valid <= 1;
+											{cmd_reg_crd, cmd_reg_cwr, cmd_reg_ca, cmd_reg_cwdat} <= {crd, cwr, ca, cwdat}; 
+											$display("written cmd_reg: rd = %b, wr = %b, ca = %b, cwdat = %h", crd, cwr, ca, cwdat);
+										end
 								end
 								
 					4'b011x: begin
-									ready <= 1;
-									valid <= 0;
+//									ready <= 1;
+//									valid <= 0;
+									write_flag <= 1;
 								end
 					
 					default: begin
@@ -431,16 +455,27 @@ always @ (posedge clkin)
 											ready <= 0; 
 											valid <= 1;
 											{cmd_reg_crd, cmd_reg_cwr, cmd_reg_ca, cmd_reg_cwdat} <= {crd, cwr, ca, cwdat}; 
+											$display("written cmd_reg: rd = %b, wr = %b, ca = %b, cwdat = %h", crd, cwr, ca, cwdat);
 										end
 								end
 				endcase
 			end
 	end
 
-assign ready_bit = ready;
+datapath #(.CWL(CWL), .tbl8(tbl8))
+			dp_instance (.clkin(clkin), 
+							 .clk_90(clk_90),
+							 .crst_n(crst_n), 
+							 .cwdat(cmd_reg_cwdat),
+							 .cont_state(curr_state), 
+							 .ddq(ddq_o),
+							 .ddqs_t_o(ddqs_t_o), .ddqs_c_o(ddqs_c_o)
+							 );
 
+assign ready_bit = ready;
+assign {ddq, ddqs_t, ddqs_c} = {ddq_o, ddqs_t_o, ddqs_c_o};
 //pins for testing
 assign curr_state = state;
 always @ * //RECOVERY_EDIT
  rec_ctr = recovery_ctr;
-endmodule
+endmodule 
