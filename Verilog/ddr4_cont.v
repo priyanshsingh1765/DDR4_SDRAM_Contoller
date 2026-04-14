@@ -1,21 +1,29 @@
 module ddr4_cont(
- input clkin, crst_n, crd, cwr,
+ input clkin, clk_90, crst_n, crd, cwr,
  input [30: 0] ca,
- input [3:0] cwdat,
- output reg [3:0] crdat,
+ input [31:0] cwdat,
+ output[31:0] crdat,
  
- inout reg [3:0] ddq,
- inout reg ddqs_t, ddqs_c,
+ inout [3:0] ddq,
+ inout ddqs_t, ddqs_c,
  output reg drst_n, clkout_t, clkout_c, cke,
  output reg [16:0] da,
  output reg dcs_n, dact_n,
  output reg [1:0] dbg, dba,
  
  output ready_bit, //READY_VALID_EDIT
+ output read_valid, //READ data valid
  
  //pins for testing 
  output [3:0] curr_state,
- output integer delay, rfsh_ctr, rec_ctr //RECOVERY_EDIT
+ output integer delay, rfsh_ctr, rec_ctr, //RECOVERY_EDIT
+ output [5:0] wc, tc, tc_dq,
+ output [2:0] dp_state,
+ output rw_flag_o,
+ output cmd_reg_valid,
+ output cmd_reg_crd_val, cmd_reg_cwr_val,
+ output [30:0] cmd_reg_ca_val,
+ output [3:0] prev_bank_val
 );
 
 //timing values for E-die - to be used by FSM wait state
@@ -54,7 +62,12 @@ reg [3:0] prev_bank; //bg,ba - prev bank where a read/write was done
 reg ready, valid;
 reg cmd_reg_crd, cmd_reg_cwr; 
 reg [30:0] cmd_reg_ca;
-reg [3:0] cmd_reg_cwdat;
+reg [31:0] cmd_reg_cwdat;
+reg rw_flag; //raised when entering wait state after a write command to allow for ready to be raised when write is complete
+
+//datapath instance
+wire [31:0] ddq_o;
+wire ddqs_t_o, ddqs_c_o;
 
 //next state logic
 always @ (*)
@@ -64,16 +77,18 @@ always @ (*)
 			
 			idle:    begin
 						if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//higher priority to CPU read/write cmds //READY_VALID_EDIT
-						   if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == cmd_reg_ca[26:10] & bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 0)
-								next_state <= cmd_reg_crd ? read:write; // direct read/write for Row hit
-							else
-								next_state <= waiting;//Row miss - need to activate or precharge
+							begin
+								if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == cmd_reg_ca[26:10] & bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 0)
+									next_state <= cmd_reg_crd ? read:write; // direct read/write for Row hit
+								else
+									next_state <= waiting;//Row miss - need to activate or precharge
+							end
 								
 						else if(rfsh_ctr >= trefi) //Need to refresh and no cpu read write command
 							next_state <= all_precharged ? refresh:waiting;
 							
 						else
-						   next_state <= idle; //this is a queueless solution as of now, as it assumes cpu maintains crd, cwr until read/write is complete
+						   next_state <= idle; 
 						end
 						
 			default: next_state <= waiting;
@@ -123,12 +138,12 @@ begin
 		idle:     begin
 					 if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//read/write given higher priority over refresh for upto 9trefi
 						 begin
-						 rfsh_ctr <= rfsh_ctr + 1;
-						 if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
-						 begin
-							 delay <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? trcd:(((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
-							 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]]:1;//RECOVERY_EDIT
-						 end
+							 rfsh_ctr <= rfsh_ctr + 1;
+							 if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
+								 begin
+									 delay <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? trcd:(((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
+									 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]]:1;//RECOVERY_EDIT
+								 end
 						 end
 						 
 					 else if(rfsh_ctr >= trefi)
@@ -164,7 +179,7 @@ begin
 					 end
 		
 		write:    begin
-					 delay <= CL + tbl8;
+					 delay <= CWL + tbl8;
 					 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= 0;
 					 active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= cmd_reg_ca[26:10];
 					 rfsh_ctr <= rfsh_ctr + 1;
@@ -327,7 +342,7 @@ begin
 					 ret <= idle;
 					 dcs_n <= 0;
 					 dact_n <= 1;
-					 da[16:14] <= 4'b001;
+					 da[16:14] <= 3'b001;
 					 end
 					 
 		default:  dcs_n <= 1;	
@@ -348,16 +363,35 @@ always @ (posedge clkin)
 					init_zq: begin
 									ready <= 1;
 									valid <= 0;
+									rw_flag <= 0;
 								end
 					
 					4'b00xx: begin
 									ready <= 0;
 									valid <= 0;
+									rw_flag <= 0;
 								end
 								
+					waiting: begin
+									if((rw_flag == 1) & (delay == 0))
+										begin
+											ready <= 1;
+											valid <= 0;
+											rw_flag <= 0;
+										end
+									else if(ready & (crd | cwr))
+										begin
+											ready <= 0; 
+											valid <= 1;
+											{cmd_reg_crd, cmd_reg_cwr, cmd_reg_ca, cmd_reg_cwdat} <= {crd, cwr, ca, cwdat}; 
+										end
+								end
+										
+								
 					4'b011x: begin
-									ready <= 1;
-									valid <= 0;
+									rw_flag <= 1;
+//									ready <= 1;
+//									valid <= 0;
 								end
 					
 					default: begin
@@ -372,10 +406,30 @@ always @ (posedge clkin)
 			end
 	end						
 
+datapath #(.CWL(CWL), .CL(CL), .tbl8(tbl8))
+			dp_instance (.clkin(clkin),
+							 .clk_90(clk_90),
+							 .crst_n(crst_n), 
+							 .cwdat(cmd_reg_cwdat),
+							 .crdat(crdat),
+							 .cont_state(curr_state), 
+							 .ddq(ddq),
+							 .ddqs_t_o(ddqs_t_o), .ddqs_c_o(ddqs_c_o),
+							 .read_valid(read_valid), 
+							 .wctr(wc), 
+							 .tctr(tc),
+							 .tctr_dq(tc_dq), 
+							 .dp_state_o(dp_state));
+
+assign {ddqs_t, ddqs_c} = {ddqs_t_o, ddqs_c_o};
 assign ready_bit = ready;
-	
 //pins for testing 
 assign curr_state = state;
+assign rw_flag_o = rw_flag;
+assign cmd_reg_valid = valid;
+assign {cmd_reg_crd_val, cmd_reg_cwr_val, cmd_reg_ca_val} = {cmd_reg_crd, cmd_reg_cwr, cmd_reg_ca};
+assign prev_bank_val = prev_bank;
 always @ * //RECOVERY_EDIT
  rec_ctr = recovery_ctr;
+
 endmodule 
