@@ -25,3 +25,5 @@
 - Micron model - tWR violation solved with recovery edit ✅
 ## 20/02
 - Recovery verif cont - issue: doesnt activate bg2 ba2 after a write to bg2 ba3 - however updates the bank status registers correctly - fixed by adding a cpu_nop before the concerned write
+## 03/05
+- Read works - issue was with shared inout ports not having tristate logic
