@@ -14,6 +14,9 @@ module ddr4_cont(
  output ready_bit, //READY_VALID_EDIT
  output read_valid, //READ data valid
  
+ output reg write_active,
+ output reg read_active,
+ 
  //pins for testing 
  output [3:0] curr_state,
  output integer delay, rfsh_ctr, rec_ctr, //RECOVERY_EDIT
@@ -66,8 +69,31 @@ reg [31:0] cmd_reg_cwdat;
 reg rw_flag; //raised when entering wait state after a write command to allow for ready to be raised when write is complete
 
 //datapath instance
-wire [31:0] ddq_o;
+wire [3:0] ddq_o;
 wire ddqs_t_o, ddqs_c_o;
+
+//read/write active
+always @ (posedge clkin)
+	begin
+		case(state)
+			write:   begin
+						  write_active <= 1;
+						  read_active <= 0;	
+						end
+			read:    begin
+						  write_active <= 0;
+						  read_active <= 1;	
+						end
+			waiting: begin
+						  write_active <= write_active;
+						  read_active <= read_active;	
+						end
+			default: begin
+						  write_active <= 0;
+						  read_active <= 0;
+						end
+		endcase
+	end
 
 //next state logic
 always @ (*)
@@ -199,7 +225,7 @@ begin
 	case(state)
 	   init0: recovery_ctr <= 0;
 		read: recovery_ctr <= CL + tbl8 + trtp;
-		write: recovery_ctr <= CL + tbl8 + twr;
+		write: recovery_ctr <= CWL + tbl8 + twr;
 		default: begin
 						if(recovery_ctr > 0)
 							recovery_ctr <= recovery_ctr - 1;
@@ -208,7 +234,7 @@ begin
 end
 
 //output and ret logic
-always @ (posedge clkin) // Will need event control using state as using clk edge control delays output by one cycle
+always @ (state) // Will need event control using state as using clk edge control delays output by one cycle
 begin
 	case(state)
 		waiting:  dcs_n <= 1; //DES command in waiting state
@@ -236,7 +262,7 @@ begin
 					 ret <= (mrs_ctr == 7) ? init_zq:init_mrs;
 					 dcs_n <= (mrs_ctr == 0) ? 1:0;
 					 dact_n <= 1;
-					 case (mrs_ctr) //finish these !!!!!!
+					 case (mrs_ctr)
 						1: begin //mr3
 							da[13:0] <= 0;
 							end
@@ -413,7 +439,7 @@ datapath #(.CWL(CWL), .CL(CL), .tbl8(tbl8))
 							 .cwdat(cmd_reg_cwdat),
 							 .crdat(crdat),
 							 .cont_state(curr_state), 
-							 .ddq(ddq),
+							 .ddq(ddq_o),
 							 .ddqs_t_o(ddqs_t_o), .ddqs_c_o(ddqs_c_o),
 							 .read_valid(read_valid), 
 							 .wctr(wc), 
@@ -421,7 +447,9 @@ datapath #(.CWL(CWL), .CL(CL), .tbl8(tbl8))
 							 .tctr_dq(tc_dq), 
 							 .dp_state_o(dp_state));
 
-assign {ddqs_t, ddqs_c} = {ddqs_t_o, ddqs_c_o};
+assign {ddq, ddqs_t, ddqs_c} = write_active ? {ddq_o, ddqs_t_o, ddqs_c_o}:{6{1'bz}};
+assign {ddq_o, ddqs_t_o, ddqs_c_o} = read_active ? {ddq, ddqs_t, ddqs_c}:{6{1'bz}};
+
 assign ready_bit = ready;
 //pins for testing 
 assign curr_state = state;
