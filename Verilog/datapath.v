@@ -26,7 +26,7 @@ always @ *
 		case(dp_state)
 			idle: 	next_state = (cont_state == 7) ? waiting_wr:((cont_state == 6) ? waiting_rd:idle);
 			waiting_wr: next_state = (wait_ctr == 0) ? toggle_wr:waiting_wr;
-			waiting_rd: next_state = (wait_ctr == 0) ? toggle_rd:waiting_rd;
+			waiting_rd: next_state = (wait_ctr == 0) ? toggle_rd:waiting_rd; 
 			toggle_wr:  next_state = (toggle_ctr == 0) ? idle:toggle_wr;
 			toggle_rd:  next_state = (toggle_ctr == 0) ? idle:toggle_rd;
 		endcase
@@ -39,20 +39,20 @@ always @ (posedge clkin)
 always @ (posedge clkin)
 	begin
 		case(dp_state)
-			idle: 	wait_ctr <= (cont_state == 7) ? CWL:CL; //not CWL - 1 as 1 cycle is consumed by the dram to sample the command 
+			idle: 	wait_ctr <= (cont_state == 7) ? (CWL-1):(CL-1); //CWL - 1 If using event control (state) rather than timed (need CWL for timed) in the controller output and ret logic block 
 			waiting_wr: begin
 								wait_ctr <= wait_ctr - 1;
 								toggle_ctr <= tbl8 - 1;
 						   end	
-			waiting_rd: begin
+			waiting_rd: begin 
 								wait_ctr <= wait_ctr - 1;
 								toggle_ctr <= tbl8 - 1;
 						   end	
 			toggle_wr:  toggle_ctr <= toggle_ctr - 1;
-			toggle_rd:  toggle_ctr <= toggle_ctr - 1;
+			toggle_rd:  toggle_ctr <= toggle_ctr - 1; 
 		endcase
 	end	
-	
+
 //strobe driver
 always @ *
 	begin
@@ -129,11 +129,13 @@ always @ (clk_90)
 			end
 	end
 
-assign ddq = ddq_reg;
+//assign {ddqs_t_o, ddqs_c_o} = {ddqs_t, ddqs_c};
+assign {ddqs_t_o, ddqs_c_o} = (dp_state == toggle_wr || dp_state == waiting_wr) ? {ddqs_t, ddqs_c} : 2'bzz;
+//assign ddq = ddq_reg;
+assign ddq = ((dp_state == toggle_wr) || start_flag) ? ddq_reg : {4{1'bz}};
 assign wctr = wait_ctr;
 assign tctr = toggle_ctr;
 assign tctr_dq = toggle_ctr_dq;
-assign {ddqs_t_o, ddqs_c_o} = {ddqs_t, ddqs_c};
 assign crdat = crdat_reg;	
 assign dp_state_o = dp_state;
-endmodule
+endmodule 
