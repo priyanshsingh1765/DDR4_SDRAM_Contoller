@@ -2,16 +2,20 @@ module ddr4_cont(
  input clkin, clk_90, crst_n, crd, cwr,
  input [30: 0] ca,
  input [31:0] cwdat,
- output reg [3:0] crdat,
+ output[31:0] crdat,
  
- inout reg [3:0] ddq,
- inout reg ddqs_t, ddqs_c,
+ inout [3:0] ddq,
+ inout ddqs_t, ddqs_c,
  output reg drst_n, clkout_t, clkout_c, cke,
  output reg [16:0] da,
  output reg dcs_n, dact_n,
  output reg [1:0] dbg, dba,
  
  output ready_bit, //READY_VALID_EDIT
+ output read_valid, //READ data valid
+ 
+ output reg write_active,
+ output reg read_active,
  
  //pins for testing 
  output [3:0] curr_state,
@@ -28,7 +32,7 @@ parameter txpr = 737;//136; - made 930 for memtesting (includes tDLLK)
 parameter tmrd = 24, tmod = 24; //tmrd must be 8 as per spec, but made 24 here as thats what the mem model TB has
 parameter tzqinit = 1024, tzqoper = 512, tzqcs = 128;
 parameter trp = 11;
-parameter trcd = 11, CL = 9, CWL = 9, tbl8 = 4; //latencies changed to 9 for mem testing
+parameter trcd = 11, CL = 12, CWL = 9, tbl8 = 4; //latencies changed to 9 for mem testing
 parameter trfc = 128, trefi = 6240; //+trfc because of upcount in waiting state
 parameter trrds = 4, trrdl = 4;
 parameter twr = 12, trtp = 6; //RECOVERY_EDIT
@@ -59,11 +63,34 @@ reg ready, valid;
 reg cmd_reg_crd, cmd_reg_cwr; 
 reg [30:0] cmd_reg_ca;
 reg [31:0] cmd_reg_cwdat;
-reg write_flag; //raised when entering wait state after a write command to allow for ready to be raised when write is complete
+reg rw_flag; //raised when entering wait state after a write command to allow for ready to be raised when write is complete
 
 //datapath instance
 wire [31:0] ddq_o;
 wire ddqs_t_o, ddqs_c_o;
+
+//read/write active
+always @ (posedge clkin)
+	begin
+		case(state)
+			write:   begin
+						  write_active <= 1;
+						  read_active <= 0;	
+						end
+			read:    begin
+						  write_active <= 0;
+						  read_active <= 1;	
+						end
+			waiting: begin
+						  write_active <= write_active;
+						  read_active <= read_active;	
+						end
+			default: begin
+						  write_active <= 0;
+						  read_active <= 0;
+						end
+		endcase
+	end
 
 //next state logic
 always @ (*)
@@ -231,7 +258,7 @@ begin
 	case(state)
 	   init0: recovery_ctr <= 0;
 		read: recovery_ctr <= CL + tbl8 + trtp;
-		write: recovery_ctr <= CL + tbl8 + twr;
+		write: recovery_ctr <= CWL + tbl8 + twr;
 		default: begin
 						if(recovery_ctr > 0)
 							recovery_ctr <= recovery_ctr - 1;
@@ -240,7 +267,7 @@ begin
 end
 
 //output and ret logic
-always @ (state)
+always @ (state) // Will need event control using state as using clk edge control delays output by one cycle
 begin
 	case(state)
 		waiting:  dcs_n <= 1; //DES command in waiting state
@@ -270,7 +297,7 @@ begin
 					 dact_n <= 1;
 					 da[16:14] <= 3'b000;
 					 da[13:0] = mode_reg_addr;
-					 case (mrs_ctr) //finish these !!!!!!
+					 case (mrs_ctr)
 						1: begin //mr3
 						   $display("MRS1 IN CONTROLLER AT TIME = %0t", $time);
 							dbg = 0;
@@ -418,21 +445,21 @@ always @ (posedge clkin)
 					init_zq: begin
 									ready <= 1;
 									valid <= 0;
-									write_flag <= 0;
+									rw_flag <= 0;
 								end
 					
 					4'b00xx: begin
 									ready <= 0;
 									valid <= 0;
-									write_flag <= 0;
+									rw_flag <= 0;
 								end	
 					
 					waiting: begin
-									if((write_flag == 1) & (delay == 0))
+									if((rw_flag == 1) & (delay == 0))
 										begin	
 											ready <= 1;
 											valid <= 0;
-											write_flag <= 0;
+											rw_flag <= 0;
 										end
 									else if(ready & (crd | cwr))
 										begin
@@ -446,7 +473,7 @@ always @ (posedge clkin)
 					4'b011x: begin
 //									ready <= 1;
 //									valid <= 0;
-									write_flag <= 1;
+									rw_flag <= 1;
 								end
 					
 					default: begin
@@ -462,18 +489,22 @@ always @ (posedge clkin)
 			end
 	end
 
-datapath #(.CWL(CWL), .tbl8(tbl8))
+datapath #(.CWL(CWL), .CL(CL), .tbl8(tbl8))
 			dp_instance (.clkin(clkin), 
 							 .clk_90(clk_90),
 							 .crst_n(crst_n), 
 							 .cwdat(cmd_reg_cwdat),
+							 .crdat(crdat),
 							 .cont_state(curr_state), 
 							 .ddq(ddq_o),
-							 .ddqs_t_o(ddqs_t_o), .ddqs_c_o(ddqs_c_o)
+							 .ddqs_t_o(ddqs_t), .ddqs_c_o(ddqs_c),
+							 .read_valid(read_valid)
 							 );
 
+assign {ddq, ddqs_t, ddqs_c} = write_active ? {ddq_o, ddqs_t_o, ddqs_c_o}:{6{1'bz}};
+assign {ddq_o, ddqs_t_o, ddqs_c_o} = read_active ? {ddq, ddqs_t, ddqs_c}:{6{1'bz}};
+
 assign ready_bit = ready;
-assign {ddq, ddqs_t, ddqs_c} = {ddq_o, ddqs_t_o, ddqs_c_o};
 //pins for testing
 assign curr_state = state;
 always @ * //RECOVERY_EDIT
