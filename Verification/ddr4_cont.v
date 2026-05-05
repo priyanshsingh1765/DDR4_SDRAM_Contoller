@@ -36,6 +36,7 @@ parameter trcd = 11, CL = 12, CWL = 9, tbl8 = 4; //latencies changed to 9 for me
 parameter trfc = 128, trefi = 6240; //+trfc because of upcount in waiting state
 parameter trrds = 4, trrdl = 4;
 parameter twr = 12, trtp = 6; //RECOVERY_EDIT
+parameter twtr_s = 2, twtr_l = 4; //WTR_EDIT
 
 //FSM states
 parameter init0 = 0, init1 = 1, init_mrs = 2, init_zq = 3; //initialization sequence
@@ -58,6 +59,10 @@ assign all_precharged = ((bank_precharged[3] & bank_precharged[2] & bank_prechar
 integer recovery_ctr;
 reg [3:0] prev_bank; //bg,ba - prev bank where a read/write was done
 
+//WTR_EDIT
+reg wtr_done;
+reg prev_cmd; //1 for write 0 for read
+
 //READY_VALID_EDIT
 reg ready, valid;
 reg cmd_reg_crd, cmd_reg_cwr; 
@@ -66,7 +71,7 @@ reg [31:0] cmd_reg_cwdat;
 reg rw_flag; //raised when entering wait state after a write command to allow for ready to be raised when write is complete
 
 //datapath instance
-wire [31:0] ddq_o;
+wire [3:0] ddq_o;
 wire ddqs_t_o, ddqs_c_o;
 
 //read/write active
@@ -101,35 +106,40 @@ always @ (*)
 			idle:    begin
 						if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//higher priority to CPU read/write cmds
 							begin
-						   if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == cmd_reg_ca[26:10] & bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 0)
-								begin
-								next_state <= cmd_reg_crd ? read:write; // direct read/write for Row hit
-								rwcase <= 1;
-								$display("bank_precharged = %p", bank_precharged);
-								$display("active_address = %p", active_address);
-								end
-							else
-								begin
-								if(bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)
-								  begin
-									rwcase <= 2;
-									$display("bank_precharged = %p", bank_precharged);
-									$display("active_address = %p", active_address);
-								  end
+								if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == cmd_reg_ca[26:10] & bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 0)
+									begin
+										if((prev_cmd & cmd_reg_crd) & ~wtr_done) //WTR_EDIT
+											next_state <= waiting; //WTR_EDIT
+										else
+											begin
+												next_state <= cmd_reg_crd ? read:write; // direct read/write for Row hit
+												rwcase <= 1;
+												$display("bank_precharged = %p", bank_precharged);
+												$display("active_address = %p", active_address);
+											end
+									end
 								else
-								  begin
-									rwcase <= 3;
-									$display("bank_precharged = %p", bank_precharged);
-									$display("active_address = %p", active_address);
-								  end
-								next_state <= waiting;//Row miss - need to activate or precharge
+									begin
+										if(bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)
+										   begin
+											   rwcase <= 2;
+											   $display("bank_precharged = %p", bank_precharged);
+											   $display("active_address = %p", active_address);
+										   end
+										else
+											begin
+												rwcase <= 3;
+												$display("bank_precharged = %p", bank_precharged);
+												$display("active_address = %p", active_address);
+											end
+									next_state <= waiting;//Row miss - need to activate or precharge
+									end
 								end
-						   end
 						else if(rfsh_ctr >= trefi) //Need to refresh and no cpu read write command
 							next_state <= all_precharged ? refresh:waiting;
 							
 						else
-						   next_state <= idle; //this is a queueless solution as of now, as it assumes cpu maintains crd, cwr until read/write is complete
+						   next_state <= idle; 
 						end
 						
 			default: next_state <= waiting;
@@ -161,6 +171,7 @@ begin
 					 delay <= internal_init;
 					 mrs_ctr <= 0;
 					 rfsh_ctr <= 0;
+					 wtr_done <= 0; //WTR_EDIT
 					 end
 					 
 		init_mrs: begin
@@ -185,12 +196,17 @@ begin
 		idle:     begin
 					 if((rfsh_ctr < 9*trefi) & (cmd_reg_crd | cmd_reg_cwr) & valid)//read/write given higher priority over refresh for upto 9trefi
 						 begin
-						 rfsh_ctr <= rfsh_ctr + 1;
-						 if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
-						 begin
-							 delay <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? trcd:(((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
-							 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]]:1;//RECOVERY_EDIT
-						 end
+							 rfsh_ctr <= rfsh_ctr + 1;
+							 if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)//Row miss => got to wait for precharge/activation
+								 begin
+									 delay <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? trcd:(((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? (recovery_ctr - 1):trp);//RECOVERY_EDIT
+									 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)) ? bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]]:1;//RECOVERY_EDIT
+								 end
+							 else //WTR_EDIT
+								 begin
+									 delay <= (prev_cmd & cmd_reg_crd) ? ((prev_bank[3:2] == cmd_reg_ca[30:29]) ? twtr_l:twtr_s):0; 
+									 wtr_done <= (prev_cmd & cmd_reg_crd);
+								 end
 						 end
 						 
 					 else if(rfsh_ctr >= trefi)
@@ -224,6 +240,7 @@ begin
 					 bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= 0;
 					 active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] <= cmd_reg_ca[26:10];
 					 rfsh_ctr <= rfsh_ctr + 1;
+					 wtr_done <= 0; //WTR_EDIT
 					 end
 		
 		write:    begin
@@ -358,17 +375,17 @@ begin
 						ret <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? (cmd_reg_crd ? read:write):idle;
 						
 						if(active_address[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] != cmd_reg_ca[26:10] | bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] == 1)
-						begin
-						 dcs_n <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)); //RECOVERY_EDIT
-						 dact_n <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? 0:1;
-						 {da[16:14], da[10]} <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? {cmd_reg_ca[26:24], cmd_reg_ca[20]}:4'b0100; //activate:precharge_single
-						 {da[13:11], da[9:0]} <= {cmd_reg_ca[23:21], cmd_reg_ca[19:10]};
-						 dbg <= cmd_reg_ca[30:29];
-						 dba <= cmd_reg_ca[28:27];
-						end
+							begin
+							 dcs_n <= ((prev_bank == cmd_reg_ca[30:27]) & (recovery_ctr != 0)); //RECOVERY_EDIT
+							 dact_n <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? 0:1;
+							 {da[16:14], da[10]} <= bank_precharged[cmd_reg_ca[30:29]][cmd_reg_ca[28:27]] ? {cmd_reg_ca[26:24], cmd_reg_ca[20]}:4'b0100; //activate:precharge_single
+							 {da[13:11], da[9:0]} <= {cmd_reg_ca[23:21], cmd_reg_ca[19:10]};
+							 dbg <= cmd_reg_ca[30:29];
+							 dba <= cmd_reg_ca[28:27];
+							end
 
 						else
-						dcs_n <= 1; //direct jump to read/write without issuing any precharge/activate command
+							dcs_n <= 1; //direct jump to read/write without issuing any precharge/activate command
 					 end
 					 
 					 else if(rfsh_ctr >= trefi) //refresh needed
@@ -407,6 +424,7 @@ begin
 					 dbg <= cmd_reg_ca[30:29];
 					 dba <= cmd_reg_ca[28:27];
 					 prev_bank <= cmd_reg_ca[30:27]; //RECOVERY_EDIT
+					 prev_cmd <= 0; //WTR_EDIT
 					 end 
 					 
 		write:    begin
@@ -418,6 +436,7 @@ begin
 					 dbg <= cmd_reg_ca[30:29];
 					 dba <= cmd_reg_ca[28:27];
 					 prev_bank <= cmd_reg_ca[30:27]; //RECOVERY_EDIT
+					 prev_cmd <= 1; //WTR_EDIT
 					 end
 		
 		refresh:  begin
@@ -471,9 +490,9 @@ always @ (posedge clkin)
 								end
 								
 					4'b011x: begin
+								   rw_flag <= 1;
 //									ready <= 1;
 //									valid <= 0;
-									rw_flag <= 1;
 								end
 					
 					default: begin
@@ -497,7 +516,7 @@ datapath #(.CWL(CWL), .CL(CL), .tbl8(tbl8))
 							 .crdat(crdat),
 							 .cont_state(curr_state), 
 							 .ddq(ddq_o),
-							 .ddqs_t_o(ddqs_t), .ddqs_c_o(ddqs_c),
+							 .ddqs_t_o(ddqs_t_o), .ddqs_c_o(ddqs_c_o),
 							 .read_valid(read_valid)
 							 );
 
