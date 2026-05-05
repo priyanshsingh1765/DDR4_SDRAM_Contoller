@@ -39,7 +39,7 @@ always @ (posedge clkin)
 always @ (posedge clkin)
 	begin
 		case(dp_state)
-			idle: 	wait_ctr <= (cont_state == 7) ? (CWL-1):(CL-1);
+			idle: 	wait_ctr <= (cont_state == 7) ? (CWL-1):(CL-1); //CWL - 1 If using event control (state) rather than timed (need CWL for timed) in the controller output and ret logic block 
 			waiting_wr: begin
 								wait_ctr <= wait_ctr - 1;
 								toggle_ctr <= tbl8 - 1;
