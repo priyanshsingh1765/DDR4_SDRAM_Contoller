@@ -1,0 +1,1200 @@
+# ERROR: No extended dataflow license exists
+# do modelsim.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 00:53:08 on May 06,2026
+# vlog -reportprogress 300 -work work "+acc" -l vcs.log -novopt -sv "+define+DDR4_2G_X4" "+define+FIXED_1600" "+define+MODEL_DEBUG_MEMORY" "+define+MODEL_DEBUG_CMDS" arch_package.sv proj_package.sv interface.sv StateTable.svp MemoryArray.svp ddr4_model.svp tb.sv ddr4_cont.v datapath.v 
+# -- Compiling package arch_package
+# -- Compiling package proj_package
+# -- Importing package arch_package
+# -- Compiling interface DDR4_if
+# -- Importing package arch_package
+# -- Importing package proj_package
+# ** Warning: ** while parsing file included at ddr4_model.svp(17)
+# ** at StateTable.svp(17): (vlog-2275) '<protected>' already exists and will be overwritten.
+# -- Importing package arch_package
+# -- Importing package proj_package
+# ** Warning: ** while parsing file included at tb.sv(41)
+# ** at StateTable.svp(17): (vlog-2275) '<protected>' already exists and will be overwritten.
+# -- Importing package arch_package
+# -- Importing package proj_package
+# -- Compiling module tb
+# -- Compiling module dqrx
+# -- Compiling module ddr4_cont
+# ** Warning: ddr4_cont.v(377): (vlog-2182) 'prev_bank' might be read before written in always_comb or always @* block.
+# -- Compiling module datapath
+# 
+# Top level modules:
+# 	tb
+# End time: 00:53:10 on May 06,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 3
+# vsim -novopt tb 
+# Start time: 00:53:10 on May 06,2026
+# Loading sv_std.std
+# Loading work.arch_package
+# Loading work.proj_package
+# Loading work.tb
+# Loading work.DDR4_if
+# Loading work.ddr4_cont
+# Loading work.datapath
+# Loading work.dqrx
+# Loading timesets for 'tb.LoadTiming' @0
+# 	Loaded timeset:TS_1875
+# 	Loaded timeset:TS_1500
+# 	Loaded timeset:TS_1250
+# 	Loaded timeset:TS_1072
+# 	Loaded timeset:TS_938
+# 	Loaded timeset:TS_833
+# 	Loaded timeset:TS_750
+# 	Loaded timeset:TS_682
+# 	Loaded timeset:TS_625
+# 	Loaded timeset:TS_560
+# 	Loaded timeset:TS_500
+# Loading timesets for 'tb.golden_model.LoadTiming' @0.0 ns
+# 	Loaded timeset:TS_1875
+# 	Loaded timeset:TS_1500
+# 	Loaded timeset:TS_1250
+# 	Loaded timeset:TS_1072
+# 	Loaded timeset:TS_938
+# 	Loaded timeset:TS_833
+# 	Loaded timeset:TS_750
+# 	Loaded timeset:TS_682
+# 	Loaded timeset:TS_625
+# 	Loaded timeset:TS_560
+# 	Loaded timeset:TS_500
+# Setting Timeset:TS_1500 with tCk:1500 @0.0 ns
+# Model based on DDR4 DDS version 0.998 6/06/2014
+# Model configured as 2G x4 ranks:1
+# Setting Timeset:TS_1250 with tCk:1250 @0.0 ns
+# Setting Timeset:TS_1250 with tCk:1250 @0.0 ns
+# Setting Timeset:TS_1250 with tCk:1250 @0.0 ns
+# tb.default_period at time 0.0 ns: INFO: Default Clock Period to TS_1250 (1250 ps)
+# Model:Cleared MemoryArray @0.0 ns
+# READY NOW
+# NOT READY NOW
+# Setting Timeset:TS_1250 with tCk:1250 @3.1 ns
+# Setting Timeset:TS_1250 with tCk:1250 @5.6 ns
+# Forcing model configuration
+# CKE changed to: 0
+# ACT changed to: 1
+# reset changed to: 0
+# cont_read_valid changed to: 0
+# Controller State = init0, time = 7.5 ns
+# tb.golden_model.<protected>.<protected>: cmdPPDE @7.5 ns
+# tb.golden_model.<protected>.<protected>:Updating table[1005] cmdPPDE R:0 BG:0 B:0 A:0 ODT:0 @7.5 ns
+# tb.golden_model.<protected>.<protected>::StateTable PPDE @7.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @8.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @8.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @10.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @10.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @11.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @11.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @12.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @12.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @13.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @13.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @15.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @15.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @16.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @16.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @17.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @17.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @18.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @18.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @20.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @20.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @21.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @21.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @22.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @22.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @23.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @23.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @25.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @25.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @26.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @26.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @27.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @27.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @28.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @28.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @30.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @30.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @31.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @31.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @32.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @32.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @33.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @33.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @35.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @35.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @36.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @36.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @37.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @37.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @38.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @38.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @40.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @40.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @41.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @41.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @42.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @42.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @43.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @43.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @45.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @45.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @46.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @46.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @47.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @47.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @48.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @48.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @50.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @50.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @51.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @51.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @52.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @52.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @53.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @53.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @55.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @55.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @56.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @56.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @57.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @57.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @58.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @58.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @60.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @60.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @61.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @61.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @62.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @62.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @63.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @63.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @65.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @65.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @66.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @66.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @67.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @67.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @68.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @68.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @70.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @70.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @71.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @71.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @72.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @72.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @73.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @73.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @75.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @75.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @76.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @76.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @77.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @77.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @78.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @78.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @80.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @80.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @81.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @81.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @82.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @82.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @83.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @83.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @85.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @85.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @86.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @86.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @87.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @87.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @88.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @88.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @90.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @90.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @91.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @91.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @92.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @92.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @93.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @93.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @95.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @95.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @96.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @96.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @97.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @97.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @98.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @98.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @100.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @100.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @101.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @101.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @102.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @102.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @103.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @103.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @105.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @105.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @106.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @106.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @107.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @107.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @108.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @108.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @110.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @110.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @111.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @111.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @112.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @112.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @113.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @113.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @115.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @115.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @116.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @116.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @117.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @117.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @118.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @118.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @120.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @120.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @121.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @121.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @122.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @122.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @123.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @123.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @125.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @125.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @126.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @126.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @127.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @127.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @128.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @128.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @130.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @130.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @131.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @131.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @132.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @132.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @133.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @133.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @135.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @135.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @136.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @136.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @137.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @137.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @138.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @138.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @140.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @140.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @141.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @141.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @142.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @142.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @143.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @143.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @145.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @145.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @146.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @146.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @147.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @147.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @148.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @148.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @150.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @150.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @151.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @151.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @152.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @152.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @153.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @153.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @155.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @155.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @156.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @156.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @157.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @157.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @158.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @158.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @160.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @160.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @161.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @161.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @162.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @162.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @163.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @163.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @165.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @165.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @166.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @166.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @167.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @167.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @168.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @168.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @170.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @170.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @171.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @171.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @172.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @172.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @173.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @173.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @175.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @175.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @176.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @176.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @177.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @177.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @178.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @178.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @180.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @180.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @181.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @181.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @182.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @182.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @183.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @183.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @185.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @185.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @186.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @186.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @187.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @187.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @188.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @188.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @190.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @190.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @191.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @191.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @192.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @192.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @193.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @193.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @195.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @195.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @196.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @196.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @197.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @197.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @198.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @198.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @200.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @200.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @201.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @201.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @202.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @202.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @203.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @203.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @205.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @205.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @206.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @206.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @207.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @207.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @208.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @208.8 ns
+# reset changed to: 1
+# Controller State = init1, time = 210.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @210.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @210.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @211.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @211.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @212.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @212.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @213.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @213.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @215.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @215.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @216.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @216.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @217.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @217.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @218.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @218.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @220.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @220.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @221.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @221.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @222.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @222.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @223.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @223.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @225.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @225.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @226.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @226.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @227.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @227.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @228.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @228.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @230.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @230.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @231.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @231.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @232.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @232.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @233.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @233.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @235.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @235.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @236.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @236.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @237.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @237.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @238.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @238.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @240.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @240.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @241.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @241.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @242.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @242.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @243.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @243.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @245.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @245.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @246.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @246.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @247.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @247.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @248.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @248.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @250.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @250.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @251.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @251.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @252.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @252.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @253.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @253.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @255.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @255.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @256.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @256.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @257.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @257.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @258.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @258.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @260.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @260.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @261.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @261.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @262.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @262.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @263.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @263.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @265.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @265.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @266.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @266.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @267.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @267.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @268.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @268.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @270.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @270.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @271.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @271.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @272.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @272.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @273.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @273.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @275.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @275.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @276.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @276.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @277.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @277.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @278.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @278.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @280.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @280.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @281.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @281.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @282.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @282.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @283.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @283.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @285.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @285.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @286.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @286.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @287.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @287.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @288.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @288.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @290.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @290.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @291.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @291.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @292.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @292.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @293.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @293.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @295.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @295.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @296.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @296.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @297.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @297.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @298.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @298.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @300.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @300.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @301.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @301.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @302.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @302.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @303.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @303.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @305.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @305.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @306.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @306.3 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @307.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @307.5 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @308.8 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @308.8 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @310.0 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @310.0 ns
+# tb.golden_model.<protected>.<protected>: In SR or PD. Command is ignored @311.3 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdNOP) (PD:1 SR:0) @311.3 ns
+# CKE changed to: 1
+# Controller State = init_mrs, time = 312.5 ns
+# tb.golden_model.<protected>.<protected>: PDX @312.5 ns
+# tb.golden_model.<protected>.<protected>:State is not receiving cmds (cmdPDX) (PD:1 SR:0) @312.5 ns
+# tb.golden_model.<protected>.<protected>::StateTable PDX @312.5 ns
+# TB issues first MRS at 1229.4 ns
+# MRS1 IN TESTBENCH AT TIME = 1229.4 ns
+# MRS1 IN CONTROLLER AT TIME = 1235.0 ns
+# mr3: 0
+# MRS1 IN CONTROLLER AT TIME = 1235.6 ns
+# mr3: 0
+# Controller State = init_mrs, time = 1236.3 ns
+# MRS1 IN CONTROLLER AT TIME = 1236.3 ns
+# mr3: 0
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:0 B:3 A:0 @1236.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[1988] cmdLMR R:0 BG:0 B:3 A:0 ODT:0 @1236.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:0 B:3 A:0 (lmrA:600000) @1236.3 ns
+# MRS2 IN TESTBENCH AT TIME = 1260.6 ns
+# MRS2 IN CONTROLLER AT TIME = 1267.5 ns
+# mr6: 2063
+# MRS2 IN CONTROLLER AT TIME = 1268.1 ns
+# mr6: 2063
+# Controller State = init_mrs, time = 1268.8 ns
+# MRS2 IN CONTROLLER AT TIME = 1268.8 ns
+# mr6: 2063
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:1 B:2 A:80f @1268.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2014] cmdLMR R:0 BG:1 B:2 A:80f ODT:0 @1268.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:1 B:2 A:80f (lmrA:c0080f) @1268.8 ns
+# MRS3 IN TESTBENCH AT TIME = 1291.9 ns
+# MRS3 IN CONTROLLER AT TIME = 1300.0 ns
+# mr5: 0
+# MRS3 IN CONTROLLER AT TIME = 1300.6 ns
+# mr5: 0
+# Controller State = init_mrs, time = 1301.3 ns
+# MRS3 IN CONTROLLER AT TIME = 1301.3 ns
+# mr5: 0
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:1 B:1 A:0 @1301.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2040] cmdLMR R:0 BG:1 B:1 A:0 ODT:0 @1301.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:1 B:1 A:0 (lmrA:a00000) @1301.3 ns
+# MRS4 IN TESTBENCH AT TIME = 1323.1 ns
+# MRS4 IN CONTROLLER AT TIME = 1332.5 ns
+# mr4: 0
+# MRS4 IN CONTROLLER AT TIME = 1333.1 ns
+# mr4: 0
+# Controller State = init_mrs, time = 1333.8 ns
+# MRS4 IN CONTROLLER AT TIME = 1333.8 ns
+# mr4: 0
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:1 B:0 A:0 @1333.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2066] cmdLMR R:0 BG:1 B:0 A:0 ODT:0 @1333.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:1 B:0 A:0 (lmrA:800000) @1333.8 ns
+# MRS5 IN TESTBENCH AT TIME = 1354.4 ns
+# MRS5 IN CONTROLLER AT TIME = 1365.0 ns
+# mr2: 128
+# MRS5 IN CONTROLLER AT TIME = 1365.6 ns
+# mr2: 128
+# Controller State = init_mrs, time = 1366.3 ns
+# MRS5 IN CONTROLLER AT TIME = 1366.3 ns
+# mr2: 128
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:0 B:2 A:80 @1366.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2092] cmdLMR R:0 BG:0 B:2 A:80 ODT:0 @1366.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:0 B:2 A:80 (lmrA:400080) @1366.3 ns
+# MRS6 IN TESTBENCH AT TIME = 1385.6 ns
+# MRS6 IN CONTROLLER AT TIME = 1397.5 ns
+# mr1: 1
+# MRS6 IN CONTROLLER AT TIME = 1398.1 ns
+# mr1: 1
+# Controller State = init_mrs, time = 1398.8 ns
+# MRS6 IN CONTROLLER AT TIME = 1398.8 ns
+# mr1: 1
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:0 B:1 A:1 @1398.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2118] cmdLMR R:0 BG:0 B:1 A:1 ODT:0 @1398.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:0 B:1 A:1 (lmrA:200001) @1398.8 ns
+# MRS7 IN TESTBENCH AT TIME = 1416.9 ns
+# MRS7 IN CONTROLLER AT TIME = 1430.0 ns
+# mr0: 540
+# MRS7 IN CONTROLLER AT TIME = 1430.6 ns
+# mr0: 540
+# Controller State = init_mrs, time = 1431.3 ns
+# MRS7 IN CONTROLLER AT TIME = 1431.3 ns
+# mr0: 540
+# tb.golden_model.<protected>.<protected>:Initialization complete @1431.3 ns
+# tb.golden_model.<protected>.<protected>.<protected>:cmdLMR C:0 BG:0 B:0 A:21c @1431.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2144] cmdLMR R:0 BG:0 B:0 A:21c ODT:0 @1431.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable LMR BG:0 B:0 A:21c (lmrA:21c) @1431.3 ns
+# TB issues Precharge at 1448.1 ns
+# TB issues ZQ at 1463.1 ns, increased waiting from 1024 to 1040
+# Controller State = init_zq, time = 1463.8 ns
+# READY NOW
+# tb.golden_model.<protected>.<protected>.<protected>:WARNING: Precharge ignored all banks closed @1463.8 ns
+# Controller State = init_zq, time = 1480.0 ns
+# tb.golden_model.<protected>.<protected>.<protected>:cmdZQ @1480.0 ns
+# tb.golden_model.<protected>.<protected>:Updating table[2183] cmdZQ R:0 BG:0 B:0 A:61c ODT:0 @1480.0 ns
+# Controller State = idle, time = 2761.3 ns
+# wr preamble = 1
+# Current memory controller state = 5 at time = 2763.1 ns
+# start: 2763.1 ns
+# Controller State = refresh, time = 9282.5 ns
+# bank_precharged = '{15, 15, 15, 15}
+# active_address = '{'{x, x, x, x}, '{x, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# tb.golden_model.<protected>.<protected>.<protected>:cmdREF C:0 BG:0 A10:1 B:0 @9282.5 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8425] cmdREFA R:0 BG:0 B:0 A:61c ODT:0 @9282.5 ns
+# tb.golden_model.<protected>.<protected>::StateTable REF BG:0 @9282.5 ns
+# Writing [2][3][0][0] 12345678
+# RWCASE = x
+# WL = 9, BL = 8, write preamble clocks = 1
+# written cmd_reg: rd = 0, wr = 1, ca = 1011000000000000000000000000000, cwdat = 12345678
+# NOT READY NOW
+# Waiting for controller ready start: 9286.9 ns
+# bank_precharged = '{15, 15, 15, 15}
+# active_address = '{'{x, x, x, x}, '{x, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Controller State = idle, time = 9443.8 ns
+# ACT changed to: 0
+# rwcase_changed to:           2
+# bank_precharged = '{15, 15, 15, 15}
+# active_address = '{'{x, x, x, x}, '{x, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# tb.golden_model.<protected>.<protected>.<protected>:cmdACT C:0 BG:2 B:3 R:0 @9445.0 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8555] cmdACT R:0 BG:2 B:3 A:0 ODT:0 @9445.0 ns
+# tb.golden_model.<protected>.<protected>::StateTable Opened R:0 BG:2 B:3 R:0 @9445.0 ns
+# ACT changed to: 1
+# Controller State = write, time = 9461.3 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9461.3 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9461.3 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdWR BG:2 B:3 R:0 C:0000 AP:0 WL:9 BL:8 @9461.3 ns
+# WrPipe 0 -> 0 C:0 (8/8)@9461.3 ns
+# WrPipe 1 -> 3 C:0 (8/8)@9461.3 ns
+# WrPipe 2 -> 6 C:0 (8/8)@9461.3 ns
+# WrPipe 3 -> 7 C:0 (8/8)@9461.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8568] cmdWR R:0 BG:2 B:3 A:0 ODT:0 @9461.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable WR BG:2 B:3 C:0 @9461.3 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:x) @9471.9 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:8 (raw:8) @9472.5 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:7 (raw:7) @9473.1 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:0 dm:0 data:8 @9473.1 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:0 dm:0 data:8 @9473.1 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:6 (raw:6) @9473.8 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:1 dm:0 data:7 @9473.8 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:1 dm:0 data:7 @9473.8 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9474.4 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:2 dm:0 data:6 @9474.4 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:2 dm:0 data:6 @9474.4 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:4 (raw:4) @9475.0 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:3 dm:0 data:5 @9475.0 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:3 dm:0 data:5 @9475.0 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:3 (raw:3) @9475.6 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:4 dm:0 data:4 @9475.6 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:4 dm:0 data:4 @9475.6 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:2 (raw:2) @9476.3 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:5 dm:0 data:3 @9476.3 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:5 dm:0 data:3 @9476.3 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:1 (raw:1) @9476.9 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:6 dm:0 data:2 @9476.9 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:6 dm:0 data:2 @9476.9 ns
+# NEGEDGE ddqs
+# Model:Write C:0 BG:2 B:3 R:0 C:7 dm:0 data:1 @9477.5 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:7 dm:0 data:1 @9477.5 ns
+# POSEDGE ddqs
+# READY NOW
+# Controller State = idle, time = 9478.8 ns
+# Waiting for controller ready end: 9479.4 ns
+# Writing [2][3][0][0] 50505050
+# written cmd_reg: rd = 0, wr = 1, ca = 1011000000000000000000000000000, cwdat = 50505050
+# NOT READY NOW
+# bank_precharged = '{15, 7, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# rwcase_changed to:           1
+# LEVEL 2 MISS: ACTIVATE ISSUED
+# Controller State = write, time = 9483.8 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9483.8 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9483.8 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdWR BG:2 B:3 R:0 C:0000 AP:0 WL:9 BL:8 @9483.8 ns
+# WrPipe 0 -> 0 C:0 (8/8)@9483.8 ns
+# WrPipe 1 -> 3 C:0 (8/8)@9483.8 ns
+# WrPipe 2 -> 6 C:0 (8/8)@9483.8 ns
+# WrPipe 3 -> 7 C:0 (8/8)@9483.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8586] cmdWR R:0 BG:2 B:3 A:0 ODT:0 @9483.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable WR BG:2 B:3 C:0 @9483.8 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:x) @9494.4 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9495.0 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9495.6 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:0 dm:0 data:0 @9495.6 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:0 dm:0 data:0 @9495.6 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9496.3 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:1 dm:0 data:5 @9496.3 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:1 dm:0 data:5 @9496.3 ns
+# POSEDGE ddqs
+# WL = 9, BL = 8, write preamble clocks = 1
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9496.9 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:2 dm:0 data:0 @9496.9 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:2 dm:0 data:0 @9496.9 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9497.5 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:3 dm:0 data:5 @9497.5 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:3 dm:0 data:5 @9497.5 ns
+# POSEDGE ddqs
+# Waiting for controller ready start: 9498.1 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9498.1 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:4 dm:0 data:0 @9498.1 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:4 dm:0 data:0 @9498.1 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9498.8 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:5 dm:0 data:5 @9498.8 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:5 dm:0 data:5 @9498.8 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9499.4 ns
+# Model:Write C:0 BG:2 B:3 R:0 C:6 dm:0 data:0 @9499.4 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:6 dm:0 data:0 @9499.4 ns
+# NEGEDGE ddqs
+# Model:Write C:0 BG:2 B:3 R:0 C:7 dm:0 data:5 @9500.0 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:0 C:7 dm:0 data:5 @9500.0 ns
+# POSEDGE ddqs
+# READY NOW
+# Controller State = idle, time = 9501.3 ns
+# Waiting for controller ready end: 9501.9 ns
+# Writing [2][3][2][0] 50505050
+# HIT - ALREADY ACTIVATED
+# WL = 9, BL = 8, write preamble clocks = 1
+# written cmd_reg: rd = 0, wr = 1, ca = 1011000000000000000100000000000, cwdat = 50505050
+# NOT READY NOW
+# bank_precharged = '{15, 7, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# rwcase_changed to:           3
+# Waiting for controller ready start: 9504.4 ns
+# bank_precharged = '{15, 7, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Controller State = idle, time = 9516.3 ns
+# tb.golden_model.<protected>.<protected>.<protected>:cmdPRE BG:2 B:3 AP:0 @9517.5 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8613] cmdPRE R:0 BG:2 B:3 A:2 ODT:0 @9517.5 ns
+# tb.golden_model.<protected>.<protected>::StateTable PRE closed BG:2 B:3 (0 Open) @9517.5 ns
+# bank_precharged = '{15, 15, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Controller State = idle, time = 9532.5 ns
+# ACT changed to: 0
+# rwcase_changed to:           2
+# bank_precharged = '{15, 15, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# tb.golden_model.<protected>.<protected>.<protected>:cmdACT C:0 BG:2 B:3 R:2 @9533.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8626] cmdACT R:0 BG:2 B:3 A:2 ODT:0 @9533.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable Opened R:0 BG:2 B:3 R:2 @9533.8 ns
+# ACT changed to: 1
+# Controller State = write, time = 9550.0 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9550.0 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9550.0 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdWR BG:2 B:3 R:2 C:0000 AP:0 WL:9 BL:8 @9550.0 ns
+# WrPipe 0 -> 0 C:0 (8/8)@9550.0 ns
+# WrPipe 1 -> 3 C:0 (8/8)@9550.0 ns
+# WrPipe 2 -> 6 C:0 (8/8)@9550.0 ns
+# WrPipe 3 -> 7 C:0 (8/8)@9550.0 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8639] cmdWR R:0 BG:2 B:3 A:0 ODT:0 @9550.0 ns
+# tb.golden_model.<protected>.<protected>::StateTable WR BG:2 B:3 C:0 @9550.0 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:x) @9560.6 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9561.3 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9561.9 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:0 dm:0 data:0 @9561.9 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:0 dm:0 data:0 @9561.9 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9562.5 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:1 dm:0 data:5 @9562.5 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:1 dm:0 data:5 @9562.5 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9563.1 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:2 dm:0 data:0 @9563.1 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:2 dm:0 data:0 @9563.1 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9563.8 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:3 dm:0 data:5 @9563.8 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:3 dm:0 data:5 @9563.8 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9564.4 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:4 dm:0 data:0 @9564.4 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:4 dm:0 data:0 @9564.4 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9565.0 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:5 dm:0 data:5 @9565.0 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:5 dm:0 data:5 @9565.0 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9565.6 ns
+# Model:Write C:0 BG:2 B:3 R:2 C:6 dm:0 data:0 @9565.6 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:6 dm:0 data:0 @9565.6 ns
+# NEGEDGE ddqs
+# Model:Write C:0 BG:2 B:3 R:2 C:7 dm:0 data:5 @9566.3 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:3 R:2 C:7 dm:0 data:5 @9566.3 ns
+# POSEDGE ddqs
+# READY NOW
+# Controller State = idle, time = 9567.5 ns
+# Waiting for controller ready end: 9568.1 ns
+# Writing [2][2][2][0] 89abcdef
+# written cmd_reg: rd = 0, wr = 1, ca = 1010000000000000000100000000000, cwdat = 89abcdef
+# NOT READY NOW
+# bank_precharged = '{15, 7, 15, 15}
+# active_address = '{'{x, x, x, x}, '{2, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# ACT changed to: 0
+# bank_precharged = '{15, 7, 15, 15}
+# active_address = '{'{x, x, x, x}, '{2, x, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# LEVEL 2 MISS: ACTIVATE ISSUED
+# tb.golden_model.<protected>.<protected>.<protected>:cmdACT C:0 BG:2 B:2 R:2 @9571.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8656] cmdACT R:0 BG:2 B:2 A:2 ODT:0 @9571.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable Opened R:0 BG:2 B:2 R:2 @9571.3 ns
+# WL = 9, BL = 8, write preamble clocks = 1
+# ACT changed to: 1
+# Waiting for controller ready start: 9586.9 ns
+# Controller State = write, time = 9587.5 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9587.5 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9587.5 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdWR BG:2 B:2 R:2 C:0000 AP:0 WL:9 BL:8 @9587.5 ns
+# WrPipe 0 -> 0 C:0 (8/8)@9587.5 ns
+# WrPipe 1 -> 3 C:0 (8/8)@9587.5 ns
+# WrPipe 2 -> 6 C:0 (8/8)@9587.5 ns
+# WrPipe 3 -> 7 C:0 (8/8)@9587.5 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8669] cmdWR R:0 BG:2 B:2 A:0 ODT:0 @9587.5 ns
+# tb.golden_model.<protected>.<protected>::StateTable WR BG:2 B:2 C:0 @9587.5 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:x) @9598.1 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:f (raw:f) @9598.8 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:e (raw:e) @9599.4 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:0 dm:0 data:f @9599.4 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:0 dm:0 data:f @9599.4 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:d (raw:d) @9600.0 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:1 dm:0 data:e @9600.0 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:1 dm:0 data:e @9600.0 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:c (raw:c) @9600.6 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:2 dm:0 data:d @9600.6 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:2 dm:0 data:d @9600.6 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:b (raw:b) @9601.3 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:3 dm:0 data:c @9601.3 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:3 dm:0 data:c @9601.3 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:a (raw:a) @9601.9 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:4 dm:0 data:b @9601.9 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:4 dm:0 data:b @9601.9 ns
+# NEGEDGE ddqs
+# tb.golden_model.<protected>:Receive pos DQ:9 (raw:9) @9602.5 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:5 dm:0 data:a @9602.5 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:5 dm:0 data:a @9602.5 ns
+# POSEDGE ddqs
+# tb.golden_model.<protected>:Receive neg DQ:8 (raw:8) @9603.1 ns
+# Model:Write C:0 BG:2 B:2 R:2 C:6 dm:0 data:9 @9603.1 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:6 dm:0 data:9 @9603.1 ns
+# NEGEDGE ddqs
+# Model:Write C:0 BG:2 B:2 R:2 C:7 dm:0 data:8 @9603.8 ns
+# tb.golden_model.<protected>.<protected>:WR BG:2 B:2 R:2 C:7 dm:0 data:8 @9603.8 ns
+# POSEDGE ddqs
+# READY NOW
+# Controller State = idle, time = 9605.0 ns
+# Waiting for controller ready end: 9605.6 ns
+# Reading [2][3][0][0]
+# written cmd_reg: rd = 1, wr = 0, ca = 1011000000000000000000000000000, cwdat = 89abcdef
+# NOT READY NOW
+# bank_precharged = '{15, 3, 15, 15}
+# active_address = '{'{x, x, x, x}, '{2, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# rwcase_changed to:           3
+# LEVEL 2 MISS: ACTIVATE ISSUED
+# tb.golden_model.<protected>.<protected>.<protected>:cmdPRE BG:2 B:3 AP:0 @9608.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8686] cmdPRE R:0 BG:2 B:3 A:0 ODT:0 @9608.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable PRE closed BG:2 B:3 (1 Open) @9608.8 ns
+# bank_precharged = '{15, 11, 15, 15}
+# active_address = '{'{x, x, x, x}, '{2, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Controller State = idle, time = 9623.8 ns
+# ACT changed to: 0
+# rwcase_changed to:           2
+# bank_precharged = '{15, 11, 15, 15}
+# active_address = '{'{x, x, x, x}, '{2, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Waiting for valid read data and controller ready start: 9624.4 ns
+# tb.golden_model.<protected>.<protected>.<protected>:cmdACT C:0 BG:2 B:3 R:0 @9625.0 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8699] cmdACT R:0 BG:2 B:3 A:0 ODT:0 @9625.0 ns
+# tb.golden_model.<protected>.<protected>::StateTable Opened R:0 BG:2 B:3 R:0 @9625.0 ns
+# ACT changed to: 1
+# Controller State = read, time = 9641.3 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdRD BG:2 B:3 R:0 C:0000 AP:0 RL:11 BL:8 @9641.3 ns
+# RdPipe 0 -> 0 C:0 (8/8) @9641.3 ns
+# RdPipe 1 -> 2 C:0 (8/8) @9641.3 ns
+# RdPipe 2 -> 4 C:0 (8/8) @9641.3 ns
+# RdPipe 3 -> 6 C:0 (8/8) @9641.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8712] cmdRD R:0 BG:2 B:3 A:0 ODT:0 @9641.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable RD BG:2 B:3 C:0 @9641.3 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9655.0 ns
+# POSEDGE ddqs
+# Model:Read C:0 BG:2 B:3 R:0 C:0 dm:0 (data:0) (written @9495.6 ns) @9655.6 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:0 dm:0 data:0 @9655.6 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9655.6 ns
+# NEGEDGE ddqs
+# Model:Read C:0 BG:2 B:3 R:0 C:1 dm:0 (data:5) (written @9496.3 ns) @9656.3 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:1 dm:0 data:5 @9656.3 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9656.3 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# Model:Read C:0 BG:2 B:3 R:0 C:2 dm:0 (data:0) (written @9496.9 ns) @9656.9 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:2 dm:0 data:0 @9656.9 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9656.9 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# Model:Read C:0 BG:2 B:3 R:0 C:3 dm:0 (data:5) (written @9497.5 ns) @9657.5 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:3 dm:0 data:5 @9657.5 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9657.5 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# Model:Read C:0 BG:2 B:3 R:0 C:4 dm:0 (data:0) (written @9498.1 ns) @9658.1 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:4 dm:0 data:0 @9658.1 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9658.1 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# Model:Read C:0 BG:2 B:3 R:0 C:5 dm:0 (data:5) (written @9498.8 ns) @9658.8 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:5 dm:0 data:5 @9658.8 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9658.8 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# Model:Read C:0 BG:2 B:3 R:0 C:6 dm:0 (data:0) (written @9499.4 ns) @9659.4 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:6 dm:0 data:0 @9659.4 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9659.4 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# Model:Read C:0 BG:2 B:3 R:0 C:7 dm:0 (data:5) (written @9500.0 ns) @9660.0 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:0 C:7 dm:0 data:5 @9660.0 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9660.0 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9660.6 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# cont_read_valid changed to: 1
+# POSEDGE ddqs
+# cont_read_valid changed to: 0
+# READY NOW
+# Controller State = idle, time = 9662.5 ns
+# Waiting for controller ready end: 9663.1 ns
+# Read data = [50505050] at address = [2][3][0][0]
+# Reading [2][3][2][0]
+# written cmd_reg: rd = 1, wr = 0, ca = 1011000000000000000100000000000, cwdat = 89abcdef
+# NOT READY NOW
+# bank_precharged = '{15, 3, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# rwcase_changed to:           3
+# LEVEL 2 MISS: ACTIVATE ISSUED
+# bank_precharged = '{15, 3, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Controller State = idle, time = 9670.0 ns
+# tb.golden_model.<protected>.<protected>.<protected>:cmdPRE BG:2 B:3 AP:0 @9671.3 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8736] cmdPRE R:0 BG:2 B:3 A:2 ODT:0 @9671.3 ns
+# tb.golden_model.<protected>.<protected>::StateTable PRE closed BG:2 B:3 (1 Open) @9671.3 ns
+# Waiting for valid read data and controller ready start: 9681.9 ns
+# bank_precharged = '{15, 11, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# Controller State = idle, time = 9686.3 ns
+# ACT changed to: 0
+# rwcase_changed to:           2
+# bank_precharged = '{15, 11, 15, 15}
+# active_address = '{'{x, x, x, x}, '{0, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# tb.golden_model.<protected>.<protected>.<protected>:cmdACT C:0 BG:2 B:3 R:2 @9687.5 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8749] cmdACT R:0 BG:2 B:3 A:2 ODT:0 @9687.5 ns
+# tb.golden_model.<protected>.<protected>::StateTable Opened R:0 BG:2 B:3 R:2 @9687.5 ns
+# ACT changed to: 1
+# Controller State = read, time = 9703.8 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdRD BG:2 B:3 R:2 C:0000 AP:0 RL:11 BL:8 @9703.8 ns
+# RdPipe 0 -> 0 C:0 (8/8) @9703.8 ns
+# RdPipe 1 -> 2 C:0 (8/8) @9703.8 ns
+# RdPipe 2 -> 4 C:0 (8/8) @9703.8 ns
+# RdPipe 3 -> 6 C:0 (8/8) @9703.8 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8762] cmdRD R:0 BG:2 B:3 A:0 ODT:0 @9703.8 ns
+# tb.golden_model.<protected>.<protected>::StateTable RD BG:2 B:3 C:0 @9703.8 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9717.5 ns
+# POSEDGE ddqs
+# Model:Read C:0 BG:2 B:3 R:2 C:0 dm:0 (data:0) (written @9561.9 ns) @9718.1 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:0 dm:0 data:0 @9718.1 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9718.1 ns
+# NEGEDGE ddqs
+# Model:Read C:0 BG:2 B:3 R:2 C:1 dm:0 (data:5) (written @9562.5 ns) @9718.8 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:1 dm:0 data:5 @9718.8 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9718.8 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# Model:Read C:0 BG:2 B:3 R:2 C:2 dm:0 (data:0) (written @9563.1 ns) @9719.4 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:2 dm:0 data:0 @9719.4 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9719.4 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# Model:Read C:0 BG:2 B:3 R:2 C:3 dm:0 (data:5) (written @9563.8 ns) @9720.0 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:3 dm:0 data:5 @9720.0 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9720.0 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# Model:Read C:0 BG:2 B:3 R:2 C:4 dm:0 (data:0) (written @9564.4 ns) @9720.6 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:4 dm:0 data:0 @9720.6 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9720.6 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# Model:Read C:0 BG:2 B:3 R:2 C:5 dm:0 (data:5) (written @9565.0 ns) @9721.3 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:5 dm:0 data:5 @9721.3 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9721.3 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# Model:Read C:0 BG:2 B:3 R:2 C:6 dm:0 (data:0) (written @9565.6 ns) @9721.9 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:6 dm:0 data:0 @9721.9 ns
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9721.9 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# Model:Read C:0 BG:2 B:3 R:2 C:7 dm:0 (data:5) (written @9566.3 ns) @9722.5 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:3 R:2 C:7 dm:0 data:5 @9722.5 ns
+# tb.golden_model.<protected>:Receive pos DQ:0 (raw:0) @9722.5 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  0
+# tb.golden_model.<protected>:Receive neg DQ:5 (raw:5) @9723.1 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  5
+# cont_read_valid changed to: 1
+# POSEDGE ddqs
+# cont_read_valid changed to: 0
+# READY NOW
+# Controller State = idle, time = 9725.0 ns
+# Waiting for controller ready end: 9725.6 ns
+# Read data = [50505050] at address = [2][3][2][0]
+# Reading [2][2][2][0]
+# written cmd_reg: rd = 1, wr = 0, ca = 1010000000000000000100000000000, cwdat = 89abcdef
+# NOT READY NOW
+# bank_precharged = '{15, 3, 15, 15}
+# active_address = '{'{x, x, x, x}, '{2, 2, x, x}, '{x, x, x, x}, '{x, x, x, x}}
+# rwcase_changed to:           1
+# LEVEL 2 MISS: ACTIVATE ISSUED
+# Controller State = read, time = 9730.0 ns
+# tb.golden_model.<protected>.<protected>.<protected>.<protected>:cmdRD BG:2 B:2 R:2 C:0000 AP:0 RL:11 BL:8 @9730.0 ns
+# RdPipe 0 -> 0 C:0 (8/8) @9730.0 ns
+# RdPipe 1 -> 2 C:0 (8/8) @9730.0 ns
+# RdPipe 2 -> 4 C:0 (8/8) @9730.0 ns
+# RdPipe 3 -> 6 C:0 (8/8) @9730.0 ns
+# tb.golden_model.<protected>.<protected>:Updating table[8783] cmdRD R:0 BG:2 B:2 A:0 ODT:0 @9730.0 ns
+# tb.golden_model.<protected>.<protected>::StateTable RD BG:2 B:2 C:0 @9730.0 ns
+# tb.golden_model.<protected>:Receive pos DQ:x (raw:z) @9743.8 ns
+# POSEDGE ddqs
+# Waiting for valid read data and controller ready start: 9744.4 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:0 dm:0 (data:f) (written @9599.4 ns) @9744.4 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:0 dm:0 data:f @9744.4 ns
+# tb.golden_model.<protected>:Receive neg DQ:x (raw:z) @9744.4 ns
+# NEGEDGE ddqs
+# Model:Read C:0 BG:2 B:2 R:2 C:1 dm:0 (data:e) (written @9600.0 ns) @9745.0 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:1 dm:0 data:e @9745.0 ns
+# tb.golden_model.<protected>:Receive pos DQ:f (raw:f) @9745.0 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq = 15
+# Model:Read C:0 BG:2 B:2 R:2 C:2 dm:0 (data:d) (written @9600.6 ns) @9745.6 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:2 dm:0 data:d @9745.6 ns
+# tb.golden_model.<protected>:Receive neg DQ:e (raw:e) @9745.6 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq = 14
+# Model:Read C:0 BG:2 B:2 R:2 C:3 dm:0 (data:c) (written @9601.3 ns) @9746.3 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:3 dm:0 data:c @9746.3 ns
+# tb.golden_model.<protected>:Receive pos DQ:d (raw:d) @9746.3 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq = 13
+# Model:Read C:0 BG:2 B:2 R:2 C:4 dm:0 (data:b) (written @9601.9 ns) @9746.9 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:4 dm:0 data:b @9746.9 ns
+# tb.golden_model.<protected>:Receive neg DQ:c (raw:c) @9746.9 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq = 12
+# Model:Read C:0 BG:2 B:2 R:2 C:5 dm:0 (data:a) (written @9602.5 ns) @9747.5 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:5 dm:0 data:a @9747.5 ns
+# tb.golden_model.<protected>:Receive pos DQ:b (raw:b) @9747.5 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq = 11
+# Model:Read C:0 BG:2 B:2 R:2 C:6 dm:0 (data:9) (written @9603.1 ns) @9748.1 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:6 dm:0 data:9 @9748.1 ns
+# tb.golden_model.<protected>:Receive neg DQ:a (raw:a) @9748.1 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq = 10
+# Model:Read C:0 BG:2 B:2 R:2 C:7 dm:0 (data:8) (written @9603.8 ns) @9748.8 ns
+# tb.golden_model.<protected>.<protected>:RD BG:2 B:2 R:2 C:7 dm:0 data:8 @9748.8 ns
+# tb.golden_model.<protected>:Receive pos DQ:9 (raw:9) @9748.8 ns
+# POSEDGE ddqs
+# ddr4_cont:Recieved ddq =  9
+# tb.golden_model.<protected>:Receive neg DQ:8 (raw:8) @9749.4 ns
+# NEGEDGE ddqs
+# ddr4_cont:Recieved ddq =  8
+# cont_read_valid changed to: 1
+# POSEDGE ddqs
+# cont_read_valid changed to: 0
+# READY NOW
+# Controller State = idle, time = 9751.3 ns
+# Waiting for controller ready end: 9751.9 ns
+# Read data = [89abcdef] at address = [2][2][2][0]
+# Model:Read C:0 BG:2 B:3 R:0 C:0 dm:0 (data:0) (written @9495.6 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:1 dm:0 (data:5) (written @9496.3 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:2 dm:0 (data:0) (written @9496.9 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:3 dm:0 (data:5) (written @9497.5 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:4 dm:0 (data:0) (written @9498.1 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:5 dm:0 (data:5) (written @9498.8 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:6 dm:0 (data:0) (written @9499.4 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:0 C:7 dm:0 (data:5) (written @9500.0 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:0 dm:0 (data:0) (written @9561.9 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:1 dm:0 (data:5) (written @9562.5 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:2 dm:0 (data:0) (written @9563.1 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:3 dm:0 (data:5) (written @9563.8 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:4 dm:0 (data:0) (written @9564.4 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:5 dm:0 (data:5) (written @9565.0 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:6 dm:0 (data:0) (written @9565.6 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:3 R:2 C:7 dm:0 (data:5) (written @9566.3 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:0 dm:0 (data:f) (written @9599.4 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:1 dm:0 (data:e) (written @9600.0 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:2 dm:0 (data:d) (written @9600.6 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:3 dm:0 (data:c) (written @9601.3 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:4 dm:0 (data:b) (written @9601.9 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:5 dm:0 (data:a) (written @9602.5 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:6 dm:0 (data:9) (written @9603.1 ns) @9753.1 ns
+# Model:Read C:0 BG:2 B:2 R:2 C:7 dm:0 (data:8) (written @9603.8 ns) @9753.1 ns
+# tb.test_done at time 9753.1 ns: INFO: Simulation is Complete
+# 1
+# Break in Task test_done at tb.sv line 622
+
+# End time: 01:00:46 on May 06,2026, Elapsed time: 0:07:36
+# Errors: 0, Warnings: 0
