@@ -39,7 +39,7 @@ always @ (posedge clkin)
 always @ (posedge clkin)
 	begin
 		case(dp_state)
-			idle: 	wait_ctr <= (cont_state == 7) ? (CWL):(CL); //CWL - 1 If using event control (state) rather than timed (need CWL for timed) in the controller output and ret logic block 
+			idle: 	wait_ctr <= (cont_state == 7) ? (CWL-1):(CL-1); //CWL - 1 If using event control (state) rather than timed (need CWL for timed) in the controller output and ret logic block 
 			waiting_wr: begin
 								wait_ctr <= wait_ctr - 1;
 								toggle_ctr <= tbl8 - 1;
@@ -129,10 +129,10 @@ always @ (clk_90)
 			end
 	end
 
-//assign {ddqs_t_o, ddqs_c_o} = {ddqs_t, ddqs_c};
+//TRISTATE LOGIC
 assign {ddqs_t_o, ddqs_c_o} = (dp_state == toggle_wr || dp_state == waiting_wr) ? {ddqs_t, ddqs_c} : 2'bzz;
-//assign ddq = ddq_reg;
 assign ddq = ((dp_state == toggle_wr) || start_flag) ? ddq_reg : {4{1'bz}};
+
 assign wctr = wait_ctr;
 assign tctr = toggle_ctr;
 assign tctr_dq = toggle_ctr_dq;

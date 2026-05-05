@@ -251,7 +251,7 @@ begin
 end
 
 //output and ret logic
-always @ (posedge clkin) // Will need event control using state as using clk edge control delays output by one cycle
+always @ (*) // Will need event control using state as using clk edge control delays output by one cycle
 begin
 	case(state)
 		waiting:  dcs_n <= 1; //DES command in waiting state
