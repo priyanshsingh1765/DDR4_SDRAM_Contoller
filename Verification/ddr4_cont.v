@@ -19,10 +19,8 @@ module ddr4_cont(
  
  //pins for testing 
  output [3:0] curr_state,
- output integer delay, rfsh_ctr,
  output integer rwcase,
- input [13:0] mode_reg_addr,
- output integer rec_ctr //RECOVERY_EDIT
+ input [13:0] mode_reg_addr
 );
 
 //timing values for E-die - to be used by FSM wait state
@@ -45,8 +43,8 @@ parameter idle = 5, read = 6, write = 7, refresh = 8;
 
 //signals used
 reg [3:0] state, next_state, ret;
-//integer delay, rfsh_ctr, mrs_ctr; //to be used by the wait state
-integer mrs_ctr; 
+
+integer delay, rfsh_ctr, mrs_ctr; //to be used by the wait state
 
 //status of the banks
 reg [3:0] bank_precharged [3:0]; //individual bank precharged
@@ -284,7 +282,7 @@ begin
 end
 
 //output and ret logic
-always @ (state) // Will need event control using state as using clk edge control delays output by one cycle
+always @ (*) // Will need event control using state as using clk edge control delays output by one cycle
 begin
 	case(state)
 		waiting:  dcs_n <= 1; //DES command in waiting state
@@ -491,8 +489,6 @@ always @ (posedge clkin)
 								
 					4'b011x: begin
 								   rw_flag <= 1;
-//									ready <= 1;
-//									valid <= 0;
 								end
 					
 					default: begin
@@ -524,8 +520,7 @@ assign {ddq, ddqs_t, ddqs_c} = write_active ? {ddq_o, ddqs_t_o, ddqs_c_o}:{6{1'b
 assign {ddq_o, ddqs_t_o, ddqs_c_o} = read_active ? {ddq, ddqs_t, ddqs_c}:{6{1'bz}};
 
 assign ready_bit = ready;
+
 //pins for testing
 assign curr_state = state;
-always @ * //RECOVERY_EDIT
- rec_ctr = recovery_ctr;
 endmodule 

@@ -8,11 +8,11 @@ module datapath
  inout [3:0] ddq,
  inout ddqs_t_o, ddqs_c_o,
  output reg read_valid
- //output [5:0] wctr, tctr, tctr_dq,
- //output [2:0] dp_state_o
  );
 
+//states
 parameter idle = 0, waiting_wr = 1, waiting_rd = 2, toggle_wr = 3, toggle_rd = 4; 
+
 reg [2:0] dp_state, next_state;
 integer wait_ctr, toggle_ctr, toggle_ctr_dq;
 reg [31:0] crdat_reg;
@@ -130,13 +130,9 @@ always @ (clk_90)
 			end
 	end
 
-//assign {ddqs_t_o, ddqs_c_o} = {ddqs_t, ddqs_c};
+//TRISTATE LOGIC
 assign {ddqs_t_o, ddqs_c_o} = (dp_state == toggle_wr || dp_state == waiting_wr) ? {ddqs_t, ddqs_c} : 2'bzz;
-//assign ddq = ddq_reg;
-assign ddq = ((dp_state == toggle_wr) || start_flag) ? ddq_reg : {4{1'bz}};
-assign wctr = wait_ctr;
-assign tctr = toggle_ctr;
-assign tctr_dq = toggle_ctr_dq;
+assign ddq = ((dp_state == toggle_wr) || start_flag) ? ddq_reg : {4{1'bz}}; 
+
 assign crdat = crdat_reg;	
-assign dp_state_o = dp_state;
 endmodule 
